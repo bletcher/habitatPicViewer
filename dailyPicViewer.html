@@ -75,12 +75,12 @@
     </div>
   </div>
 
-  <div class="content-section-b">
+  <div class="content-section-b top-section">
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-md-12">
 
-          <h2>Sawmill River from the Montague Conservation Area bridge</h2>
+          <h2>Montague Conservation Area</h2>
           <div class="row" style="margin-top: 50px; margin-bottom: 20px">
             <div id="flickr-images_consArea"></div>
           </div>  
@@ -128,7 +128,17 @@
 
 <script>
 
+var tooltip = d3.select("body").append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
 
+function imgError(image) {
+    image.onerror = "";
+    image.src = "/img/noImage.gif";
+    console.log('in error');
+    return true;
+}
+  
 ///////
 //  
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
@@ -146,12 +156,6 @@ function getImgs(URL,setID,setName) {
     ;  // Er, nothing much to explain here.
 */
 
-  // from the flickr api page
-//  var URL = "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=64a26f21daab706970e0469aca3863e8&photoset_id=72157681488505313&user_id=155284079%40N03&format=json&nojsoncallback=1&auth_token=72157681511036103-7624bb4989cf303b&api_sig=2332d217519f0e16dd29342546f2dc6e"
-
-//  var URL = "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&photoset_id=72157681488505313&user_id=155284079%40N03&format=json&nojsoncallback=1" //&secret=e53455ffee17a4d2"
-
-
   console.log(URL);
 
   // See the API in action here: http://www.flickr.com/services/api/explore/flickr.photosets.getPhotos
@@ -163,31 +167,46 @@ function getImgs(URL,setID,setName) {
       $(img_thumb).appendTo("#flickr-images" + setName);
       
       //console.log(img_src)
-      console.log(img_thumb)
+      console.log(img_thumb, item)
       
-/*      img
+ 
+      img_thumb
         .on("mouseover", function(d) {
+
+        console.log("this", this, 'd', d, 'img', d.target.x)
+        
+        tooltip.html('<h3>' + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
+         // .style("right", "80px")// (d3.event.pageX + 15) + "px")
+         // .style("top",  "200px")// (d3.event.pageY - 15) + "px")
+  
+          .style("left", d.target.x + 100 + "px")     
+          .style("top",  d.target.y - 100 + "px")
+          .transition()
+          .duration(100)
+          .style("opacity", 1)
+        })
+        
+        .on("mouseout", function (d) {
         d3.select(this)
-          .css("width", "20%")
-          
-          
+      //    .transition()
+      //    .duration(500)
+      //    .style("width", "7.5%")
+      
+        tooltip.transition()
+          .duration(250)
+          .style("opacity", 0);
+      
+        })  
+/*          
           .style("stroke", "red")
           .style("fill", "lightgrey");
         
         //var ext = new RegExp('jpg', 'i');
         var fileName = "img/" + d.river + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + d.section + ".JPG";
         
-        tooltip.html('<h3>River = ' + d.riverFull + ", Section = " + d.section + '</h3><br><img class="object-fit-contain" src= ' + 
-                                                                                                                           fileName + 
-                                                                                                                           ' onerror="imgError(this);"/' +  
-                                                                                                                           '>')
-           .style("right", "80px")// (d3.event.pageX + 15) + "px")
-           .style("top",  "200px")// (d3.event.pageY - 15) + "px")
-           .transition()
-           .duration(100)
-           .style("opacity", 1);
-      })
-  */    
+       
+   */    
+     
     });
   });
 }
@@ -198,8 +217,8 @@ sawmillURL = "https://api.flickr.com/services/rest/?method=flickr.photosets.getP
 consAreaURL = " https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=a2c875aae5b778785643d935a972153f&photoset_id=72157681560511503&user_id=155284079%40N03&format=json&nojsoncallback=1&auth_token=72157682313512441-870fd9f137e50594&api_sig=069817a64623ea67dbe90bbd1475014b"
 
 $(document).ready(function() {
-  getImgs(sawmillURL,"72157681488505313","_sawmill"); // Call the function!
-  getImgs(consAreaURL,"72157681488505313","_consArea"); // Call the function!
+  getImgs(sawmillURL,"72157681488505313","_sawmill"); 
+  getImgs(consAreaURL,"72157681560511503","_consArea"); 
 });
 
 
