@@ -45,6 +45,13 @@
     
     img2 {height:10%; width:10%; }
     
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img {
+      width: 80%;
+      margin: auto;
+    }
+    
+    .carousel-caption {top: 5px;}
   </style>
 </head>
 <body>
@@ -61,6 +68,32 @@
 
 
   <div class="content-section-b top-section">
+    <div class="container">
+      <div class="col-xs-6 col-md-6">
+  
+  
+        <div id="carousel_Sawmill" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+          </ol>
+
+          <div class="carousel-inner" role="listbox">
+          </div>
+      
+          <a class="left carousel-control" href="#carousel_Sawmill" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#carousel_Sawmill" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section-b">
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-md-12">
@@ -144,17 +177,16 @@ function imgError(image) {
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
 
 
-function getImgs(URL,setID,setName) {
- /* var URL = "https://api.flickr.com/services/rest/" +  // Wake up the Flickr API gods.
+function getImgs(setID,setName) {
+  var URL = "https://api.flickr.com/services/rest/" +  // Wake up the Flickr API gods.
     "?method=flickr.photosets.getPhotos" +  // Get photo from a photoset. http://www.flickr.com/services/api/flickr.photosets.getPhotos.htm
-    "&api_key=24de00e7e4e35d259296d8ed2a48a92e" +  // API key. Get one here: http://www.flickr.com/services/apps/create/apply/
+    "&api_key=b17072d6e8c8f93662be1635ac49f557" +  // API key. Get one here: http://www.flickr.com/services/apps/create/apply/
     "&photoset_id=" + setID +  // The set ID.
     "&user_id=155284079@N03" +
-  //  "&privacy_filter=1" +  // 1 signifies all public photos.
+    "&privacy_filter=1" +  // 1 signifies all public photos.
   //  "&per_page=20" + // For the sake of this example I am limiting it to 20 photos.
     "&format=json&nojsoncallback=1"
     ;  // Er, nothing much to explain here.
-*/
 
   console.log(URL);
 
@@ -165,25 +197,30 @@ function getImgs(URL,setID,setName) {
       var img_src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
       var img_thumb = $("<img/>").attr("src", img_src).css("margin", "1px").css("width", "7.5%")
       $(img_thumb).appendTo("#flickr-images" + setName);
+
+      if (setName == "_sawmill"){ 
+        $('<div class="item"><img class="d-block img-fluid" src="' + img_src + '"><div class="carousel-caption"><h3>' + item.title + ' </h3></div></div>').appendTo('.carousel-inner');
+        $('<li data-target=".carousel_Sawmill" data-slide-to="'+ i +'"></li>').appendTo('.carousel-indicators');
+      }
       
       //console.log(img_src)
-      console.log(img_thumb, item)
+      console.log(i,img_src, item)
       
- 
       img_thumb
         .on("mouseover", function(d) {
 
-        console.log("this", this, 'd', d, 'img', d.target.x)
+        console.log("this", this, 'd', d, 'img', d.target.x, d.target.y)
         
         tooltip.html('<h3>' + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
          // .style("right", "80px")// (d3.event.pageX + 15) + "px")
          // .style("top",  "200px")// (d3.event.pageY - 15) + "px")
   
-          .style("left", d.target.x + 100 + "px")     
-          .style("top",  d.target.y - 100 + "px")
+          .style("left", d3.select('.col-xs-12').node().offsetWidth / 4 + 'px')     
+          .style("top",  d.target.y + 0 + "px")
           .transition()
           .duration(100)
           .style("opacity", 1)
+          
         })
         
         .on("mouseout", function (d) {
@@ -197,28 +234,20 @@ function getImgs(URL,setID,setName) {
           .style("opacity", 0);
       
         })  
-/*          
-          .style("stroke", "red")
-          .style("fill", "lightgrey");
-        
-        //var ext = new RegExp('jpg', 'i');
-        var fileName = "img/" + d.river + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + d.section + ".JPG";
-        
-       
-   */    
-     
+    
     });
+    
+    $('.item').first().addClass('active');
+    $('.carousel-indicators > li').first().addClass('active');
+  
   });
 }
 
-
-sawmillURL = "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=a2c875aae5b778785643d935a972153f&photoset_id=72157681488505313&user_id=155284079%40N03&format=json&nojsoncallback=1&auth_token=72157682313512441-870fd9f137e50594&api_sig=2b5d88b1c7ed10b1b4b001305b141941"
-
-consAreaURL = " https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=a2c875aae5b778785643d935a972153f&photoset_id=72157681560511503&user_id=155284079%40N03&format=json&nojsoncallback=1&auth_token=72157682313512441-870fd9f137e50594&api_sig=069817a64623ea67dbe90bbd1475014b"
-
 $(document).ready(function() {
-  getImgs(sawmillURL,"72157681488505313","_sawmill"); 
-  getImgs(consAreaURL,"72157681560511503","_consArea"); 
+  getImgs("72157681488505313","_sawmill"); 
+  getImgs("72157681560511503","_consArea");
+  
+  $('.carousel_Sawmill').carousel();
 });
 
 
