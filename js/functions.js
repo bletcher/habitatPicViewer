@@ -44,7 +44,7 @@ function getImgs(setID,setName) {
   $.getJSON(URL, function(data){
     $.each(data.photoset.photo, function(i, item){
       var img_src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
-      var img_thumb = $("<img/>").attr("src", img_src).css("margin", "1px").css("width", "7.5%")
+      var img_thumb = $("<img/>").attr("src", img_src).css("margin", "1px").css("width", "7.5%");
       $(img_thumb).appendTo("#flickr-images" + setName);
 
       if (setName == "_sawmill"){ 
@@ -59,7 +59,7 @@ function getImgs(setID,setName) {
       img_thumb
         .on("mouseover", function(d) {
 
-        console.log("this", this, 'd', d, 'img', d.target.x, d.target.y)
+        console.log("this", this, 'd', d, 'img', d.target.x, d.target.y);
         
         tooltip.html('<h3>' + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
          // .style("right", "80px")// (d3.event.pageX + 15) + "px")
@@ -69,12 +69,12 @@ function getImgs(setID,setName) {
           .style("top",  d.target.y + 0 + "px")
           .transition()
           .duration(100)
-          .style("opacity", 1)
+          .style("opacity", 1);
           
         })
         
         .on("mouseout", function (d) {
-        d3.select(this)
+        d3.select(this);
       //    .transition()
       //    .duration(500)
       //    .style("width", "7.5%")
@@ -83,7 +83,7 @@ function getImgs(setID,setName) {
           .duration(250)
           .style("opacity", 0);
       
-        })  
+        });  
     
     });
     
@@ -91,4 +91,32 @@ function getImgs(setID,setName) {
     $('.carousel-indicators > li').first().addClass('active');
   
   });
+}
+
+
+
+function addCircle(dat){
+  
+     var circle = g.selectAll("circle")
+      .data(dat);
+      
+     circle.exit().remove();
+     
+     circle
+      .enter()
+      .append("circle")
+      .attr("r", 5) 
+      .attr("fill", "grey");
+     
+     circle 
+      .transition()
+      .duration(500)
+      
+      .attr("cx",function(d,i){
+          return x(d.date);
+      })
+      .attr("cy",function(d,i){
+          return y(d.flow);
+      });
+
 }
