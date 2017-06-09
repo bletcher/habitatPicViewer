@@ -203,10 +203,10 @@ var state = {
       
       state.caption = $(e.relatedTarget).find('.carousel-caption').text();
       state.currentDate = Date.parse(state.caption);
-      console.log(state)
+   //   console.log(state)
       
-      addCircle(state.flowIn.filter(function(d){return d.date == state.currentDate}));
-      console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
+      transCircle(state.flowIn.filter(function(d){return d.date == state.currentDate}));
+  //    console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
     });  
   }); 
 

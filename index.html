@@ -62,6 +62,13 @@
     
     img2 {height:10%; width:10%; }
     
+    imgTest {
+      margin: 0;
+      border: 2px solid white;
+      -webkit-transition: opacity 500ms;
+      transition: opacity 500ms;
+    }
+    
   </style>
 </head>
 <body>
@@ -146,7 +153,7 @@
           <h2>Daily image test</h2>
 
           <div id="flickr-images"></div>
-
+          <div id="grid"></div>
 
         </div>
       </div>
@@ -217,10 +224,14 @@ var featureWest, featureStanley;
 $("#selectedYearDD").on("change", function () {
   console.log("#selectedYearDD change");
   app.state.selectedYear = $("#selectedYearDD").val();
+  gridData();
+  renderImages();
 });
 $("#selectedSeasonDD").on("change", function () {
   console.log("#selectedSeasonDD change");
   app.state.selectedSeason = $("#selectedSeasonDD").val();
+  gridData();
+  renderImages();
 });
 
 function imgError(image) {
@@ -401,48 +412,106 @@ d3.queue()
 
 });
 
+///////////////////////////////////
+// make a grid and fill with images
 
-
-///////
-//  
-// http://www.lovelldsouza.com/webdev/flickr-to-website/
-
-
-function getImgs(setID) {
- /* var URL = "https://api.flickr.com/services/rest/" +  // Wake up the Flickr API gods.
-    "?method=flickr.photosets.getPhotos" +  // Get photo from a photoset. http://www.flickr.com/services/api/flickr.photosets.getPhotos.htm
-    "&api_key=24de00e7e4e35d259296d8ed2a48a92e" +  // API key. Get one here: http://www.flickr.com/services/apps/create/apply/
-    "&photoset_id=" + setID +  // The set ID.
-    "&user_id=155284079@N03" +
-  //  "&privacy_filter=1" +  // 1 signifies all public photos.
-  //  "&per_page=20" + // For the sake of this example I am limiting it to 20 photos.
-    "&format=json&nojsoncallback=1"
-    ;  // Er, nothing much to explain here.
-*/
-
-  // from the flickr api page
-  var URL = "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=64a26f21daab706970e0469aca3863e8&photoset_id=72157681488505313&user_id=155284079%40N03&format=json&nojsoncallback=1&auth_token=72157681511036103-7624bb4989cf303b&api_sig=2332d217519f0e16dd29342546f2dc6e"
-
-  console.log(URL);
-
-  // See the API in action here: http://www.flickr.com/services/api/explore/flickr.photosets.getPhotos
-  $.getJSON(URL, function(data){
-    $.each(data.photoset.photo, function(i, item){
-      // Creating the image URL. Info: http://www.flickr.com/services/api/misc.urls.html
-      var img_src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
-      var img_thumb = $("<img/>").attr("src", img_src).css("margin", "1px").css("width", "7.5%")
-      $(img_thumb).appendTo("#flickr-images");
-      
-      //console.log(img_src)
-      console.log(img_thumb)
-      
-    });
-  });
+//https://bl.ocks.org/cagrimmett/07f8c8daea00946b9e704e3efcbd5739
+function gridData() {
+	var data = new Array();
+	var xpos = 1; //starting xpos and ypos at 1 so the stroke will show when we make the grid below
+	var ypos = 1;
+	var width = 75;
+	var height = 75;
+	var numRows = 7;
+	var numCols = 15;
+	
+	var imageRowMap = [
+	  "WB",
+	  "WB",
+	  "WB",
+	  "WB",
+	  "OL",
+	  "OS",
+	  "IL"
+	];
+	
+	var riverMult = [ 1,2,3,4,1,1,1 ];
+	
+	// iterate for rows	
+	for (var row = 0; row < numRows; row++) {
+		data.push( new Array() );
+		
+		// iterate for cells/columns inside rows
+		for (var column = 0; column < numCols; column++) {
+		  var columnPlus1 = (column + 1) * riverMult[row];
+			data[row].push({
+				x: xpos,
+				y: ypos,
+				width: width,
+				height: height,
+				imageName: "img/" + imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG"
+			})
+			// increment the x position. I.e. move it over by 50 (width variable)
+			xpos += width;
+		}
+		// reset the x position after a row is complete
+		xpos = 1;
+		// increment the y position for the next row. Move it down 50 (height variable)
+		ypos += height;	
+	}
+	return data;
 }
 
-$(document).ready(function() {
-  getImgs("72157681488505313"); // Call the function!
-});
+var gridDat = gridData();	
+console.log(gridDat);
+
+var grid = d3.select("#grid")
+	.append("svg")
+	.attr("width","1440px")
+	.attr("height","510px");
+	
+var row = grid.selectAll(".row")
+	.data(gridDat)
+	.enter().append("g")
+	.attr("class", "row");
+	
+var column = row.selectAll(".square")
+	.data(function(d) { return d; })
+	.enter().append("rect")
+	.attr("class","square")
+	.attr("x", function(d) { return d.x; })
+	.attr("y", function(d) { return d.y; })
+	.attr("width", function(d) { return d.width; })
+	.attr("height", function(d) { return d.height; })
+	.style("fill", "#fff")
+	.style("stroke", "#222")
+	.on('click', function(d) {
+
+    });
+
+renderImages();
+
+function renderImages(){
+  var image = row.selectAll(".image")
+  	.data(function(d) { return d; });
+  	
+    image.enter().append("image")
+  //	.attr("class","object-fit-contain")
+   // .attr("class", "img")
+  	.attr("xlink:href", function(d) { return d.imageName; } )
+//  	.attr("onerror", imgError(this))
+  	.attr("x", function(d) { return d.x; })
+  	.attr("y", function(d) { return d.y; })
+  	.attr("width", function(d) { return d.width; })
+  	.attr("height", function(d) { return d.height; })
+}	
+	
+//.attr("img", class="object-fit-contain" src = function(d) { return d.imageName; })
+	
+	
+//	<img class="object-fit-contain" src= ' + fileName + ' onerror="imgError(this);"/' +  '>'
+	
+	
 
 
 
