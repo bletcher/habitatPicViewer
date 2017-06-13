@@ -52,9 +52,11 @@ function getImgs(setID,setName) {
         
         $('<li data-target="#carousel_Sawmill" data-slide-to="'+ i +'"></li>').appendTo('.carousel-indicators');
 
+      //console.log(i,img_src, item)
+
       }
 
-      //console.log(i,img_src, item)
+      
       
       img_thumb
         .on("mouseover", function(d) {
@@ -62,9 +64,7 @@ function getImgs(setID,setName) {
         console.log("this", this, 'd', d, 'img', d.target.x, d.target.y);
         
         tooltip.html('<h3>' + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
-         // .style("right", "80px")// (d3.event.pageX + 15) + "px")
-         // .style("top",  "200px")// (d3.event.pageY - 15) + "px")
-  
+
           .style("left", d3.select('.col-xs-12').node().offsetWidth / 4 + 'px')     
           .style("top",  d.target.y + 0 + "px")
           .transition()
@@ -75,10 +75,7 @@ function getImgs(setID,setName) {
         
         .on("mouseout", function (d) {
         d3.select(this);
-      //    .transition()
-      //    .duration(500)
-      //    .style("width", "7.5%")
-      
+
         tooltip.transition()
           .duration(250)
           .style("opacity", 0);
@@ -124,8 +121,8 @@ function transCircle(dat){
 
 function getClimateData(){
   
-  var noaaUrl = "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&stationid=GHCND:USC00194154";
-                
+  var noaaUrl = "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&stationid=GHCND:USC00194154&startdate=2017-01-01&enddate=2017-06-01&limit=1000";
+  
   var tokenFromNoaa = "bcYzVWIFLXszLpZlmSTQnVAsKJsTizhF";
   
   $.ajax({
@@ -136,8 +133,6 @@ function getClimateData(){
       success: function(returnedData) {
           console.log(returnedData);
       }
-  });
-  
-  
+  }); 
   
 }

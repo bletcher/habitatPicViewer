@@ -167,7 +167,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
-          <p class="copyright text-muted">Copyright © 2016 SHEDS Development Team</p>
+          <p class="copyright text-muted">Copyright © 2017 SHEDS Development Team</p>
           <p class="copyright text-muted"><strong>Disclaimer:</strong> This web site (SHEDS) has not yet been approved by the U.S. Geological Survey (USGS). As such, it does not represent any official USGS finding or policy.</p>
         </div>
       </div>
@@ -176,7 +176,7 @@
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
-<script type='text/javascript' src="js/functions.js"></script>
+<script type='text/javascript' src="js/functionsDailyPic.js"></script>
 <!-- 
 <script src="/libs/jquery/dist/jquery.min.js"></script>
 <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script> 
@@ -186,6 +186,7 @@
 <script>
 
 var state = {
+ fileName: undefined,  
  caption: undefined,        
  currentDate: undefined,
  flowIn: undefined
@@ -203,7 +204,7 @@ var state = {
       
       state.caption = $(e.relatedTarget).find('.carousel-caption').text();
       state.currentDate = Date.parse(state.caption);
-   //   console.log(state)
+      //console.log(state)
       
       transCircle(state.flowIn.filter(function(d){return d.date == state.currentDate}));
   //    console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
