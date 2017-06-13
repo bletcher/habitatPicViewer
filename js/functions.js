@@ -95,7 +95,7 @@ function getImgs(setID,setName) {
 
 
 
-function addCircle(dat){
+function transCircle(dat){
   
      var circle = g.selectAll("circle")
       .data(dat);
@@ -106,7 +106,8 @@ function addCircle(dat){
       .enter()
       .append("circle")
       .attr("r", 5) 
-      .attr("fill", "grey");
+      .attr("fill", "white")
+      .attr("stroke", "darkgrey");
      
      circle 
       .transition()
@@ -119,4 +120,24 @@ function addCircle(dat){
           return y(d.flow);
       });
 
+}
+
+function getClimateData(){
+  
+  var noaaUrl = "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&stationid=GHCND:USC00194154";
+                
+  var tokenFromNoaa = "bcYzVWIFLXszLpZlmSTQnVAsKJsTizhF";
+  
+  $.ajax({
+      url: noaaUrl,
+      headers:{
+          token: tokenFromNoaa
+      },
+      success: function(returnedData) {
+          console.log(returnedData);
+      }
+  });
+  
+  
+  
 }

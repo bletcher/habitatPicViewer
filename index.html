@@ -53,6 +53,17 @@
       width: 480px;
       text-align: center;
     }
+
+    div.tooltipGrid {
+      position: absolute;
+      padding: 8px;
+      font: 12px sans-serif;
+      background: #C6C6C6;
+      pointer-events: none;
+      height: auto;
+      width: 480px;
+      text-align: center;
+    }
     
     .object-fit_contain { object-fit: contain }
     
@@ -222,16 +233,16 @@ var featureWest, featureStanley;
 
 // update dropdown functions
 $("#selectedYearDD").on("change", function () {
-  console.log("#selectedYearDD change");
   app.state.selectedYear = $("#selectedYearDD").val();
   gridData();
   renderImages();
+  console.log("#selectedYearDD change",app.state.selectedYear);
 });
 $("#selectedSeasonDD").on("change", function () {
-  console.log("#selectedSeasonDD change");
   app.state.selectedSeason = $("#selectedSeasonDD").val();
   gridData();
   renderImages();
+  console.log("#selectedSeasonDD change",app.state.selectedSeason);
 });
 
 function imgError(image) {
@@ -415,13 +426,17 @@ d3.queue()
 ///////////////////////////////////
 // make a grid and fill with images
 
+  var tooltipGrid = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 //https://bl.ocks.org/cagrimmett/07f8c8daea00946b9e704e3efcbd5739
 function gridData() {
-	var data = new Array();
+	var data = [];
 	var xpos = 1; //starting xpos and ypos at 1 so the stroke will show when we make the grid below
 	var ypos = 1;
-	var width = 75;
-	var height = 75;
+	var width = 80;
+	var height = 80;
 	var numRows = 7;
 	var numCols = 15;
 	
@@ -435,7 +450,17 @@ function gridData() {
 	  "IL"
 	];
 	
-	var riverMult = [ 1,2,3,4,1,1,1 ];
+	var riverMult = [ 0,1,2,3,0,0,0 ];
+	
+	var include = [
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	];
 	
 	// iterate for rows	
 	for (var row = 0; row < numRows; row++) {
@@ -443,14 +468,26 @@ function gridData() {
 		
 		// iterate for cells/columns inside rows
 		for (var column = 0; column < numCols; column++) {
-		  var columnPlus1 = (column + 1) * riverMult[row];
-			data[row].push({
-				x: xpos,
-				y: ypos,
-				width: width,
-				height: height,
-				imageName: "img/" + imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG"
-			})
+		  var columnPlus1 = (column + 1) + riverMult[row] * numCols;
+
+			if (include[row][column] == 1){
+  			data[row].push({
+  				x: xpos,
+  				y: ypos,
+  				width: width,
+  				height: height,
+  				imageName: "img/" + imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG"
+  			})
+			}
+			else{
+  			data[row].push({
+  				x: xpos,
+  				y: ypos,
+  				width: width,
+  				height: height
+  			})
+			}
+			
 			// increment the x position. I.e. move it over by 50 (width variable)
 			xpos += width;
 		}
@@ -462,13 +499,17 @@ function gridData() {
 	return data;
 }
 
+renderImages();
+
+function renderImages(){
+
 var gridDat = gridData();	
 console.log(gridDat);
 
 var grid = d3.select("#grid")
 	.append("svg")
 	.attr("width","1440px")
-	.attr("height","510px");
+	.attr("height","710px");
 	
 var row = grid.selectAll(".row")
 	.data(gridDat)
@@ -489,9 +530,6 @@ var column = row.selectAll(".square")
 
     });
 
-renderImages();
-
-function renderImages(){
   var image = row.selectAll(".image")
   	.data(function(d) { return d; });
   	
@@ -504,13 +542,39 @@ function renderImages(){
   	.attr("y", function(d) { return d.y; })
   	.attr("width", function(d) { return d.width; })
   	.attr("height", function(d) { return d.height; })
+  	
+  	  .on("mouseover", function(d) {
+
+           
+        tooltipGrid.html('<h3>Temp</h3><br><img class="object-fit-contain" src= ' + d.imageName + ' onerror="imgError(this);"/' +  '>')
+           .style("right", "80px")// (d3.event.pageX + 15) + "px")
+           .style("top",  "200px")// (d3.event.pageY - 15) + "px")
+           .transition()
+           .duration(100)
+           .style("opacity", 1);
+      })
+      .on("mouseout", function (d) {
+        tooltipGrid.transition()
+           .duration(250)
+           .style("opacity", 0);  
+
+      });
 }	
 	
-//.attr("img", class="object-fit-contain" src = function(d) { return d.imageName; })
-	
-	
-//	<img class="object-fit-contain" src= ' + fileName + ' onerror="imgError(this);"/' +  '>'
-	
+// https://github.com/wbkd/d3-extended
+d3.selection.prototype.moveToFront = function() {  
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+d3.selection.prototype.moveToBack = function() {  
+    return this.each(function() { 
+        var firstChild = this.parentNode.firstChild; 
+        if (firstChild) { 
+            this.parentNode.insertBefore(this, firstChild); 
+        } 
+    });
+};
 	
 
 
