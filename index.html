@@ -532,6 +532,10 @@ function renderImages(){
   
       });
   
+    var w = d3.select('.col-xs-12').node().offsetWidth;
+    var tt = d3.select('.tooltip').node().offsetWidth;
+    var xOffset;
+  
     var image = row.selectAll(".image")
     	.data(function(d) { return d; });
     	
@@ -543,11 +547,7 @@ function renderImages(){
     	.attr("height", function(d) { return d.height; })
     	
     	 .on("mouseover", function(d) {
-    	   var w = d3.select('.col-xs-12').node().offsetWidth;
-    	   var xOffset; 
-    	   if(d.x > w/2) { xOffset = w/4 + 'px' } else { xOffset = w - d3.select('.tooltip').node().offsetWidth + 50 + 'px' }
-    	   
-    	   //console.log(d,d.y, xOffset)
+    	   if(d.x > w/2) { xOffset = w/4 + 'px' } else { xOffset = w - tt + 50 + 'px' }
          tooltipGrid.html('<h3>' + d.imageName + '</h3><br><img class="object-fit-contain" src= ' + d.imageName + ' onerror="imgError(this);"/' +  '>')
           .style("left", xOffset)   
           .style("top",  d.y + 720 + "px")

@@ -27,19 +27,21 @@ function typeFlow(d){
 ///////
 //  
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
-
+// remember to change permissions on photos in the albums to public. batch edit in Organizr
 
 function getImgs(setID,setName) {
+  
   var URL = "https://api.flickr.com/services/rest/" + 
     "?method=flickr.photosets.getPhotos" +  
     "&api_key=b17072d6e8c8f93662be1635ac49f557" +  
     "&photoset_id=" + setID +  // The set ID.
     "&user_id=155284079@N03" +
-    "&privacy_filter=1" +  // 1 signifies all public photos.
-    "&format=json&nojsoncallback=1"
+//    "&privacy_filter=1" +  // 1 signifies all public photos.
+    "&extras=date_taken" +
+    "&format=json&nojsoncallback=1" 
     ;  
-
-  console.log(URL);
+//console.log('testIn')
+//  console.log(URL,setID,setName);
 
   $.getJSON(URL, function(data){
     $.each(data.photoset.photo, function(i, item){
@@ -52,16 +54,15 @@ function getImgs(setID,setName) {
         
         $('<li data-target="#carousel_Sawmill" data-slide-to="'+ i +'"></li>').appendTo('.carousel-indicators');
 
-      //console.log(i,img_src, item)
+        console.log(i,img_src, item);
 
       }
 
-      
-      
       img_thumb
         .on("mouseover", function(d) {
 
-        console.log("this", this, 'd', d, 'img', d.target.x, d.target.y);
+
+        console.log("this", this, 'd', d, 'img', d.target.x, d.target.y, d.target.y);
         
         tooltip.html('<h3>' + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
 
