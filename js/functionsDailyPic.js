@@ -8,10 +8,10 @@ function imgError(image) {
     console.log('in error');
     return true;
 }
- 
+
 function strToDate(s) {
-  var  out = [new Date(s.substring(5,6) + "-" + s.substring(7,8) + "-" + s.substring(0,4)).toDateString()];
-  out.push(   new Date(s.substring(5,6) + "-" + s.substring(7,8) + "-" + s.substring(0,4)) );
+  var  out = [new Date(s.substring(6,7) + "-" + s.substring(9,10) + "-" + s.substring(0,4)).toDateString()];
+  out.push(   new Date(s.substring(6,7) + "-" + s.substring(9,10) + "-" + s.substring(0,4)) );
   return out;
 }  
 
@@ -50,21 +50,22 @@ function getImgs(setID,setName) {
       $(img_thumb).appendTo("#flickr-images" + setName);
 
       if (setName == "_sawmill"){ 
-        $('<div class="carousel-item"><img class="d-block img-fluid" src="' + img_src + '"><div class="carousel-caption d-none d-md-block"><h3>' + strToDate(item.title)[0] + ' </h3></div></div>').appendTo('.carousel-inner');
+//        $('<div class="carousel-item"><img class="d-block img-fluid" src="' + img_src + '"><div class="carousel-caption d-none d-md-block"><h3>' + strToDate(item.title)[0] + ' </h3></div></div>').appendTo('.carousel-inner');
+
+        $('<div class="carousel-item"><img class="d-block img-fluid" src="' + img_src + '"><div class="carousel-caption d-none d-md-block"><h3>' + item.datetaken + ' </h3></div></div>').appendTo('.carousel-inner');
         
         $('<li data-target="#carousel_Sawmill" data-slide-to="'+ i +'"></li>').appendTo('.carousel-indicators');
 
-        console.log(i,img_src, item);
+        //console.log(i,img_src, item);
 
       }
 
       img_thumb
         .on("mouseover", function(d) {
 
-
         console.log("this", this, 'd', d, 'img', d.target.x, d.target.y, d.target.y);
         
-        tooltip.html('<h3>' + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
+        tooltip.html('<h3>' + item.datetaken + " // " + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
 
           .style("left", d3.select('.col-xs-12').node().offsetWidth / 4 + 'px')     
           .style("top",  d.target.y + 0 + "px")

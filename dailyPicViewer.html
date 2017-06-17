@@ -203,11 +203,12 @@ var state = {
       //console.log(slideFrom+' => '+slideTo);
       
       state.caption = $(e.relatedTarget).find('.carousel-caption').text();
-      state.currentDate = Date.parse(state.caption);
-      //console.log(state)
+      state.currentDate = Date.parse(strToDate(state.caption.slice(0,10))[0]);
+      console.log("dates",state.caption,state.caption.slice(0,10),state.currentDate)
       
       transCircle(state.flowIn.filter(function(d){return d.date == state.currentDate}));
-  //    console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
+      console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
+
     });  
   }); 
 
