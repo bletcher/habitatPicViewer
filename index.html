@@ -161,16 +161,104 @@
       <div class="row">
         <div class="col-xs-12 col-md-12">
 
-          <h2>Daily image test</h2>
-
-          <div id="flickr-images"></div>
-          <div id="grid"></div>
+          <h2>Images by Sample</h2>
+   
+          <div id="flickr-images-bySample"></div>
+          <div id="gridBySample"></div>
 
         </div>
       </div>
     </div>
   </div>
 
+  <div class="content-section-a">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+
+          <h2>Images by Section</h2>
+          
+            <div id="buttonBySection" class="btn-toolbar" role="toolbar">
+              <div class="btn-group btn-group-sm" role="group" >
+                <button type="button" class="btn btn-secondary" data-value="1">1</button>
+                <button type="button" class="btn btn-secondary" data-value="2">2</button>
+                <button type="button" class="btn btn-secondary" data-value="3">3</button>
+<!---                <button type="button" class="btn btn-secondary">4</button>
+                <button type="button" class="btn btn-secondary">5</button>
+                <button type="button" class="btn btn-secondary">6</button>
+                <button type="button" class="btn btn-secondary">7</button>
+                <button type="button" class="btn btn-secondary">8</button>
+                <button type="button" class="btn btn-secondary">9</button>
+                <button type="button" class="btn btn-secondary">10</button>
+                <button type="button" class="btn btn-secondary">11</button>
+                <button type="button" class="btn btn-secondary">12</button>
+                <button type="button" class="btn btn-secondary">10</button>
+                <button type="button" class="btn btn-secondary">11</button>
+                <button type="button" class="btn btn-secondary">12</button>
+                <button type="button" class="btn btn-secondary">13</button>
+                <button type="button" class="btn btn-secondary">14</button>
+                <button type="button" class="btn btn-secondary">15</button>
+                <button type="button" class="btn btn-secondary">16</button>
+                <button type="button" class="btn btn-secondary">17</button>
+                <button type="button" class="btn btn-secondary">18</button>
+                <button type="button" class="btn btn-secondary">19</button>
+                <button type="button" class="btn btn-secondary">20</button>
+                <button type="button" class="btn btn-secondary">21</button>
+                <button type="button" class="btn btn-secondary">22</button>
+                <button type="button" class="btn btn-secondary">23</button>
+                <button type="button" class="btn btn-secondary">24</button>
+                <button type="button" class="btn btn-secondary">25</button>
+                <button type="button" class="btn btn-secondary">26</button>
+                <button type="button" class="btn btn-secondary">27</button>
+                <button type="button" class="btn btn-secondary">28</button>
+                <button type="button" class="btn btn-secondary">29</button>
+                <button type="button" class="btn btn-secondary">30</button>
+                <button type="button" class="btn btn-secondary">31</button>
+                <button type="button" class="btn btn-secondary">32</button>
+                <button type="button" class="btn btn-secondary">33</button>
+                <button type="button" class="btn btn-secondary">34</button>
+                <button type="button" class="btn btn-secondary">35</button>
+                <button type="button" class="btn btn-secondary">36</button>
+                <button type="button" class="btn btn-secondary">37</button>
+                <button type="button" class="btn btn-secondary">38</button>
+                <button type="button" class="btn btn-secondary">39</button>
+                <button type="button" class="btn btn-secondary">40</button>
+                <button type="button" class="btn btn-secondary">41</button>
+                <button type="button" class="btn btn-secondary">42</button>
+                <button type="button" class="btn btn-secondary">43</button>
+                <button type="button" class="btn btn-secondary">45</button>
+                <button type="button" class="btn btn-secondary">46</button>
+                <button type="button" class="btn btn-secondary">47</button> --->
+              </div>
+            </div>
+            
+            <div class="row" >
+              <div class="col-md-2 col-md-offset-0 text-left" style="margin-top: 30px">
+            
+                <div class="form-group">
+                  <label for="selectedRiverDD" class="col-xs-3">River</label>
+                  <div class="col-xs-9">
+                    <select class="form-control" id="selectedRiverDD">
+                      <option selected="selected" value="WB">WB</option>
+                      <option value="OL">OL</option>
+                      <option value="OS">OS</option>
+                      <option value="IL">IL</option>
+                    </select>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          
+          <p> </p>
+          
+          <div id="flickr-images-bySection"></div>
+          <div id="gridBySection"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="content-section-b">
     <div class="container">
@@ -214,7 +302,9 @@ var app = {
   state:  {
     selectedWatershed: 'west',
     selectedYear: $("#selectedYearDD").val(),
-    selectedSeason: $("#selectedSeasonDD").val()
+    selectedSeason: $("#selectedSeasonDD").val(),
+    selectedSection: 1,
+    selectedRiver: "WB"
   }
 }
 
@@ -234,15 +324,29 @@ var featureWest, featureStanley;
 // update dropdown functions
 $("#selectedYearDD").on("change", function () {
   app.state.selectedYear = $("#selectedYearDD").val();
-  gridData();
-  renderImages();
+  gridDataBySample();
+  renderImages("#gridBySample");
   console.log("#selectedYearDD change",app.state.selectedYear);
 });
 $("#selectedSeasonDD").on("change", function () {
   app.state.selectedSeason = $("#selectedSeasonDD").val();
-  gridData();
-  renderImages();
+  gridDataBySample();
+  renderImages("#gridBySample");
   console.log("#selectedSeasonDD change",app.state.selectedSeason);
+});
+
+$(".btn-group > button.btn").on("click", function(){
+    app.state.selectedSection = +this.innerHTML;
+    gridDataBySection();
+    renderImages("#gridBySection");
+    console.log("#selectedSection change",app.state.selectedSection)
+});
+
+$("#selectedRiverDD").on("change", function () {
+  app.state.selectedRiver = $("#selectedRiverDD").val();
+  gridDataBySection();
+  renderImages("#gridBySection");
+  console.log("#selectedRiverDD change",app.state.selectedRiver);
 });
 
 function imgError(image) {
@@ -431,7 +535,7 @@ var tooltipGrid = d3.select("body").append("div")
   .style("opacity", 0);
 
 //https://bl.ocks.org/cagrimmett/07f8c8daea00946b9e704e3efcbd5739
-function gridData() {
+function gridDataBySample() {
 	var data = [];
 	var xpos = 1; //starting xpos and ypos at 1 so the stroke will show when we make the grid below
 	var ypos = 1;
@@ -499,16 +603,94 @@ function gridData() {
 	return data;
 }
 
-renderImages();
+function gridDataBySection() {
+	var data = [];
+	var xpos = 1; //starting xpos and ypos at 1 so the stroke will show when we make the grid below
+	var ypos = 1;
+	var width = 100;
+	var height = 100;
+	var numRows = 4;
+	var numCols = 12;
+	
+	// placeholder for now
+	var include = [
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	];
+	
+	var imageYearMap = [
+	  [2003,2003,2003,2003,2004,2004,2004,2004,2005,2005,2005,2005],
+	  [2006,2006,2006,2006,2007,2007,2007,2007,2008,2008,2008,2008],
+	  [2009,2009,2009,2009,2010,2010,2010,2010,2011,2011,2011,2011],
+	  [2012,2012,2012,2012,2013,2013,2013,2013,2014,2014,2014,2014],
+	  [2015,2015,2015,2015,2016,2016,2016,2016,2017,2017,2017,2017]
+	];
+	
+	var imageSeasonMap = [
+	  [1,2,3,4,1,2,3,4,1,2,3,4],
+	  [1,2,3,4,1,2,3,4,1,2,3,4],
+	  [1,2,3,4,1,2,3,4,1,2,3,4],
+	  [1,2,3,4,1,2,3,4,1,2,3,4],
+	  [1,2,3,4,1,2,3,4,1,2,3,4]
+	];
+	
+	// iterate for rows	
+	for (var row = 0; row < numRows; row++) {
+		data.push( new Array() );
+		
+		// iterate for cells/columns inside rows
+		for (var column = 0; column < numCols; column++) {
+		  
+			if (include[row][column] == 1){
+  			data[row].push({
+  				x: xpos,
+  				y: ypos,
+  				width: width,
+  				height: height,
+//  				imageName: "img/" + imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG"
+  				imageName: "img/" + app.state.selectedRiver + "_" + imageYearMap[row][column] + "_" + imageSeasonMap[row][column] + "_" + app.state.selectedSection + ".JPG"
+  			})
+  			  				console.log(row,column,"img/" + app.state.selectedRiver + "_" + imageYearMap[row][column] + "_" + imageSeasonMap[row][column] + "_" + app.state.selectedSection + ".JPG")
+      }
+			else{
+  			data[row].push({
+  				x: xpos,
+  				y: ypos,
+  				width: width,
+  				height: height
+  			})
+			}
+			
+			// increment the x position. I.e. move it over by 50 (width variable)
+			xpos += width;
+		}
+		// reset the x position after a row is complete
+		xpos = 1;
+		// increment the y position for the next row. Move it down 50 (height variable)
+		ypos += height;	
+	}
+	return data;
+}
 
-function renderImages(){
+renderImages("#gridBySample");
+renderImages("#gridBySection");
 
-  d3.select("#grid").html(null);
+function renderImages(byID){
+
+//  d3.select("#grid").html(null);
+    d3.select(byID).html(null);
   
-  var gridDat = gridData();	
+  if(byID == "#gridBySample")  var gridDat = gridDataBySample();	
+  if(byID == "#gridBySection") var gridDat = gridDataBySection();
   console.log(gridDat);
   
-  var grid = d3.select("#grid")
+//  var grid = d3.select("#grid")
+  var grid = d3.select(byID)
   	.append("svg")
   	.attr("width","1440px")
   	.attr("height","710px");
@@ -534,7 +716,7 @@ function renderImages(){
   
     var w = d3.select('.col-xs-12').node().offsetWidth;
     var tt = d3.select('.tooltip').node().offsetWidth;
-    var xOffset;
+    var xOffset, yOffset;
   
     var image = row.selectAll(".image")
     	.data(function(d) { return d; });
@@ -547,10 +729,12 @@ function renderImages(){
     	.attr("height", function(d) { return d.height; })
     	
     	 .on("mouseover", function(d) {
+    	   console.log(d.x,d.y)
     	   if(d.x > w/2) { xOffset = w/4 + 'px' } else { xOffset = w - tt + 50 + 'px' }
+    	   if(byID == "#gridBySample") { yOffset = d.y + 720 + "px" } else { yOffset = d.y + 1640 + "px" }
          tooltipGrid.html('<h3>' + d.imageName + '</h3><br><img class="object-fit-contain" src= ' + d.imageName + ' onerror="imgError(this);"/' +  '>')
           .style("left", xOffset)   
-          .style("top",  d.y + 720 + "px")
+          .style("top",  yOffset)
           .transition()
           .duration(100)
           .style("opacity", 1);
