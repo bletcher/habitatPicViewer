@@ -180,10 +180,10 @@
           
             <div id="buttonBySection" class="btn-toolbar" role="toolbar">
               <div class="btn-group btn-group-sm" role="group" >
-                <button type="button" class="btn btn-secondary" data-value="1">1</button>
-                <button type="button" class="btn btn-secondary" data-value="2">2</button>
-                <button type="button" class="btn btn-secondary" data-value="3">3</button>
-<!---                <button type="button" class="btn btn-secondary">4</button>
+                <button type="button" class="btn btn-secondary">1</button>
+                <button type="button" class="btn btn-secondary">2</button>
+                <button type="button" class="btn btn-secondary">3</button>
+                <button type="button" class="btn btn-secondary">4</button>
                 <button type="button" class="btn btn-secondary">5</button>
                 <button type="button" class="btn btn-secondary">6</button>
                 <button type="button" class="btn btn-secondary">7</button>
@@ -228,7 +228,7 @@
                 <button type="button" class="btn btn-secondary">43</button>
                 <button type="button" class="btn btn-secondary">45</button>
                 <button type="button" class="btn btn-secondary">46</button>
-                <button type="button" class="btn btn-secondary">47</button> --->
+                <button type="button" class="btn btn-secondary">47</button> 
               </div>
             </div>
             
@@ -328,6 +328,7 @@ $("#selectedYearDD").on("change", function () {
   renderImages("#gridBySample");
   console.log("#selectedYearDD change",app.state.selectedYear);
 });
+
 $("#selectedSeasonDD").on("change", function () {
   app.state.selectedSeason = $("#selectedSeasonDD").val();
   gridDataBySample();
@@ -580,7 +581,7 @@ function gridDataBySample() {
   				y: ypos,
   				width: width,
   				height: height,
-  				imageName: "img/" + imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG"
+  				imageName: "img/" + app.state.selectedYear + "_" + app.state.selectedSeason + "/" + imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG"
   			})
 			}
 			else{
@@ -652,10 +653,8 @@ function gridDataBySection() {
   				y: ypos,
   				width: width,
   				height: height,
-//  				imageName: "img/" + imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG"
-  				imageName: "img/" + app.state.selectedRiver + "_" + imageYearMap[row][column] + "_" + imageSeasonMap[row][column] + "_" + app.state.selectedSection + ".JPG"
+  				imageName: "img/" + imageYearMap[row][column] + "_" + imageSeasonMap[row][column] + "/" + app.state.selectedRiver + "_" + imageYearMap[row][column] + "_" + imageSeasonMap[row][column] + "_" + app.state.selectedSection + ".JPG"
   			})
-  			  				console.log(row,column,"img/" + app.state.selectedRiver + "_" + imageYearMap[row][column] + "_" + imageSeasonMap[row][column] + "_" + app.state.selectedSection + ".JPG")
       }
 			else{
   			data[row].push({
@@ -682,14 +681,11 @@ renderImages("#gridBySection");
 
 function renderImages(byID){
 
-//  d3.select("#grid").html(null);
-    d3.select(byID).html(null);
+  d3.select(byID).html(null);
   
   if(byID == "#gridBySample")  var gridDat = gridDataBySample();	
   if(byID == "#gridBySection") var gridDat = gridDataBySection();
-  console.log(gridDat);
   
-//  var grid = d3.select("#grid")
   var grid = d3.select(byID)
   	.append("svg")
   	.attr("width","1440px")
@@ -729,9 +725,10 @@ function renderImages(byID){
     	.attr("height", function(d) { return d.height; })
     	
     	 .on("mouseover", function(d) {
-    	   console.log(d.x,d.y)
+
     	   if(d.x > w/2) { xOffset = w/4 + 'px' } else { xOffset = w - tt + 50 + 'px' }
     	   if(byID == "#gridBySample") { yOffset = d.y + 720 + "px" } else { yOffset = d.y + 1640 + "px" }
+
          tooltipGrid.html('<h3>' + d.imageName + '</h3><br><img class="object-fit-contain" src= ' + d.imageName + ' onerror="imgError(this);"/' +  '>')
           .style("left", xOffset)   
           .style("top",  yOffset)
