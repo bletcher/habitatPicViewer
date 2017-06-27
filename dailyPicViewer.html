@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fish Data Visualizations | SHEDS</title>
+  <title>Daily pic viewer</title>
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"  type="text/css">
   <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"  type="text/css"> 
@@ -269,6 +269,18 @@ var state = {
         .attr("d", line);
       
   });     
+
+
+      var timeQueryRange = '&startDT=2017-01-01' //&endDT=2017-06-24'
+			var timeQuery = '&period=P7D'
+			
+			$.getJSON('https://staging.waterservices.usgs.gov/nwis/dv/?format=json&sites=' + 
+			           "01174565" + //e.layer.data.siteCode[0].value + 
+			         //  '&parameterCd=00065' + 
+			           timeQueryRange, function(data) {
+				console.log('graphdata: ',data)
+});
+//waterservices.usgs.gov/nwis/dv/?format=waterml,2.0&sites=01174565&siteStatus=all
 
 
 </script>
