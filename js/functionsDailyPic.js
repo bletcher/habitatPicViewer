@@ -1,3 +1,11 @@
+var state = {
+ fileName: undefined,  
+ caption: undefined,        
+ currentDate: undefined,
+ flowIn: undefined,
+ selectedResolution: "z" //medium
+}
+
 var tooltip = d3.select("body").append("div")
   .attr("class", "tooltip")
   .style("opacity", 0);
@@ -24,10 +32,22 @@ function typeFlow(d){
   return d;
 }
 
+$("#selectedResolutionDD").on("change", function () {
+  state.selectedResolution = $("#selectedResolutionDD").val();
+  
+  $(".carousel-indicators").empty();
+  $(".carousel-inner").empty();
+  $("#flickr-images_sawmill").empty();
+  getImgs("72157681488505313","_sawmill");
+  
+  $("#flickr-images_consArea").empty();
+  getImgs("72157681560511503","_consArea");
+  console.log("#selectedResolutionDD change", state.selectedResolution);
+});
+
 ///////
 //  
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
-// remember to change permissions on photos in the albums to public. batch edit in Organizr
 
 function getImgs(setID,setName) {
   
@@ -45,18 +65,15 @@ function getImgs(setID,setName) {
 
   $.getJSON(URL, function(data){
     $.each(data.photoset.photo, function(i, item){
-      var img_src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
+      var img_src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_" + state.selectedResolution + ".jpg";
       var img_thumb = $("<img/>").attr("src", img_src).css("margin", "1px").css("width", "7.5%");
       $(img_thumb).appendTo("#flickr-images" + setName);
 
       if (setName == "_sawmill"){ 
-//        $('<div class="carousel-item"><img class="d-block img-fluid" src="' + img_src + '"><div class="carousel-caption d-none d-md-block"><h3>' + strToDate(item.title)[0] + ' </h3></div></div>').appendTo('.carousel-inner');
 
         $('<div class="carousel-item"><img class="d-block img-fluid" src="' + img_src + '"><div class="carousel-caption d-none d-md-block"><h3>' + item.datetaken + ' </h3></div></div>').appendTo('.carousel-inner');
         
         $('<li data-target="#carousel_Sawmill" data-slide-to="'+ i +'"></li>').appendTo('.carousel-indicators');
-
-        //console.log(i,img_src, item);
 
       }
 

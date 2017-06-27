@@ -111,10 +111,19 @@
       
       
       <div class="col-xs-6 col-md-6">
-        
         <svg width="500" height="300"></svg>  
-      
       </div> 
+      
+      <div class="form-group">
+        <label for="selectedResolutionDD" class="col-xs-1">Resolution</label>
+        <div class="col-xs-2">
+          <select class="form-control" id="selectedResolutionDD">
+            <option value="m">Low</option>
+            <option selected="selected" value="z">Medium</option>
+            <option value="c">High</option>
+          </select>
+        </div>
+      </div>
       
     </div>
   </div>
@@ -184,13 +193,6 @@
 -->
 
 <script>
-
-var state = {
- fileName: undefined,  
- caption: undefined,        
- currentDate: undefined,
- flowIn: undefined
-}
 
 
   $(document).ready(function() {
