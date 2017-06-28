@@ -10,10 +10,10 @@ var state = {
  selectedResolution: "z", //medium
  setNameInfo: {
    sawmill: {
-     imgWidth: "10%"
+     imgWidth: "7.5%"
    },
    consArea: {
-     imgWidth: "7.5%"
+     imgWidth: "10%"
    }
  }
 };
@@ -30,9 +30,9 @@ function imgError(image) {
 }
 
 function strToDate(s) {
-  var  out = [new Date(s.substring(6,7) + "-" + s.substring(9,10) + "-" + s.substring(0,4)).toDateString()];
-  out.push(   new Date(s.substring(6,7) + "-" + s.substring(9,10) + "-" + s.substring(0,4)) );
-  return out;
+  var d = new Date(s)
+  var dd = Date.parse( new Date(d.getFullYear(),d.getMonth(),d.getDate()) )
+  return dd;
 }  
 
 function typeFlow(d){
@@ -43,6 +43,22 @@ function typeFlow(d){
   
   return d;
 }
+
+$('#carousel_sawmill').on('slide.bs.carousel', function (e) {
+  var slideFrom = $(this).find('.active').index();
+  var slideTo = $(e.relatedTarget).index();
+  //console.log(slideFrom+' => '+slideTo);
+  
+  //console.log(e)
+  
+  state.caption = $(e.relatedTarget).find('.carousel-caption').text();
+  state.currentDate = strToDate(state.caption);
+  console.log("dates",state.caption,state.caption.slice(0,10),state.currentDate, new Date(state.currentDate).toDateString())
+  
+  transCircle(state.flowIn.filter(function(d){return d.date == state.currentDate}));
+  console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
+
+})
 
 $("#selectedResolutionDD").on("change", function () {
   state.selectedResolution = $("#selectedResolutionDD").val();
@@ -59,6 +75,11 @@ $("#selectedResolutionDD").on("change", function () {
   getImgs("72157681560511503","consArea");
   
   console.log("#selectedResolutionDD change", state.selectedResolution);
+});
+
+$("#carouselButtons :input").change(function() {
+    if(this.id == 'stop') $('.carousel').carousel('pause');
+    if(this.id == 'go') $('.carousel').carousel('cycle');
 });
 
 ///////
@@ -82,10 +103,8 @@ function getImgs(setID,setName) {
   $.getJSON(URL, function(data){
     $.each(data.photoset.photo, function(i, item){
       var img_src = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_" + state.selectedResolution + ".jpg";
-      var img_thumb = $("<img/>").attr("src", img_src).css("margin", "1px").css("width", "10%")//state.setNameInfo. + setName + .imgWidth);
+      var img_thumb = $("<img/>").attr("src", img_src).css("margin", "1px").css("width", state['setNameInfo'][setName]['imgWidth']);
       $(img_thumb).appendTo("#flickr-images_" + setName);
-
-console.log(setname,i,img_thumb)
 
       // add images to carousel
       if (setName == "sawmill"){ 
@@ -99,7 +118,7 @@ console.log(setname,i,img_thumb)
       img_thumb
         .on("mouseover", function(d) {
 
-        console.log("this", this, 'd', d, 'img', d.target.x, d.target.y, d.target.y);
+        //console.log("this", this, 'd', d, 'img', d.target.x, d.target.y, d.target.y);
         
         tooltip.html('<h3>' + item.datetaken + " // " + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
 

@@ -120,6 +120,18 @@
           </div>
         </div>
         </div>
+        
+        <div class="col-xs-8 col-xs-offset-4" style="margin-top: 30px;">
+          <div id="carouselButtons" class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="go" autocomplete="off" checked> Cycle
+            </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="stop" autocomplete="off"> Stop
+            </label>
+          </div>
+        </div>
+        
       </div>
       
       
@@ -188,6 +200,7 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <script type='text/javascript' src="js/functionsDailyPic.js"></script>
+
 <!-- 
 <script src="/libs/jquery/dist/jquery.min.js"></script>
 <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script> 
@@ -196,24 +209,11 @@
 
 <script>
 
-
   $(document).ready(function() {
+
     getImgs("72157681488505313","sawmill"); 
     getImgs("72157681560511503","consArea");
   
-    $('#carousel_sawmill').on('slide.bs.carousel', function (e) {
-      var slideFrom = $(this).find('.active').index();
-      var slideTo = $(e.relatedTarget).index();
-      //console.log(slideFrom+' => '+slideTo);
-      
-      state.caption = $(e.relatedTarget).find('.carousel-caption').text();
-      state.currentDate = Date.parse(strToDate(state.caption.slice(0,10))[0]);
-      console.log("dates",state.caption,state.caption.slice(0,10),state.currentDate)
-      
-      transCircle(state.flowIn.filter(function(d){return d.date == state.currentDate}));
-      console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
-
-    })
   }); 
   
   $('.carousel').carousel({
