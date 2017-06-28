@@ -216,9 +216,6 @@
   
   }); 
   
-  $('.carousel').carousel({
-    interval: 2000
-  })
 
   // Make the graph
   var svg = d3.select("svg"),
@@ -239,7 +236,7 @@
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y(d.flow); });
   
-  d3.csv("/data/swiftRiverFlow.csv", typeFlow, function(f) {
+/*  d3.csv("/data/swiftRiverFlow.csv", typeFlow, function(f) {
 
     state.flowIn = f;
     console.log(state);
@@ -277,18 +274,69 @@
         .attr("d", line);
       
   });     
+*/
 
-
-      var timeQueryRange = '&startDT=2017-01-01' //&endDT=2017-06-24'
-			var timeQuery = '&period=P7D'
-			
-			$.getJSON('https://staging.waterservices.usgs.gov/nwis/dv/?format=json&sites=' + 
-			           "01174565" + //e.layer.data.siteCode[0].value + 
-			         //  '&parameterCd=00065' + 
-			           timeQueryRange, function(data) {
-				console.log('graphdata: ',data)
-});
+  var timeQueryRange = '&startDT=2017-01-01' //&endDT=2017-06-28'
+	var timeQuery = '&period=P7D'
+	var gage = '01174565' // swift river - issues with backwater
+	var gage = '01169900' // south river, conway
+	var gageData;
+	
+	
+	$.getJSON('https://staging.waterservices.usgs.gov/nwis/dv/?format=json&sites=' + 
+	           gage + timeQueryRange, function(data) {
+		console.log('graphdata: ',data)
+		gageData = data.value.timeSeries[0].values[0].value
+		
+		$.each(gageData, function(i,d){ 
+		  var dd = new Date( d.dateTime );
+		  d.date = strToDate(dd);
+		  d.flow = +d.value;
+		 // console.log(i,d,d.dateTime,dd,d.date)
+		})
+		
+		
+		state.flowIn = gageData;
+    console.log(state);
+ 
+  
+    x.domain(d3.extent(state.flowIn, function(d) { return d.date; }));
+    y.domain(d3.extent(state.flowIn, function(d) { return d.flow; }));
+  
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x))
+        .attr("stroke", "grey")
+      .select(".domain")
+        .remove();
+  
+    g.append("g")
+        .call(d3.axisLeft(y))
+        .attr("stroke", "grey")
+      .append("text")
+        .attr("fill", "lightgrey")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .attr("stroke", "grey")
+        .text("Flow (cfs)");
+  
+    g.append("path")
+        .datum(state.flowIn)
+        .attr("fill", "none")
+        .attr("stroke", "grey")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 1.5)
+        .attr("d", line);
+		
+		
+		
+		
+  });
 //waterservices.usgs.gov/nwis/dv/?format=waterml,2.0&sites=01174565&siteStatus=all
+
 
 
 </script>

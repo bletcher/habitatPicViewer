@@ -15,7 +15,8 @@ var state = {
    consArea: {
      imgWidth: "10%"
    }
- }
+ },
+ transitionDur: 2000
 };
 
 var tooltip = d3.select("body").append("div")
@@ -30,8 +31,8 @@ function imgError(image) {
 }
 
 function strToDate(s) {
-  var d = new Date(s)
-  var dd = Date.parse( new Date(d.getFullYear(),d.getMonth(),d.getDate()) )
+  var d = new Date(s);
+  var dd = Date.parse( new Date(d.getFullYear(),d.getMonth(),d.getDate()) );
   return dd;
 }  
 
@@ -53,12 +54,16 @@ $('#carousel_sawmill').on('slide.bs.carousel', function (e) {
   
   state.caption = $(e.relatedTarget).find('.carousel-caption').text();
   state.currentDate = strToDate(state.caption);
-  console.log("dates",state.caption,state.caption.slice(0,10),state.currentDate, new Date(state.currentDate).toDateString())
+  //console.log("dates",state.caption,state.caption.slice(0,10),state.currentDate, new Date(state.currentDate).toDateString())
   
   transCircle(state.flowIn.filter(function(d){return d.date == state.currentDate}));
-  console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
+  //console.log("filter",state.flowIn.filter(function(d){return d.date == state.currentDate}))
 
-})
+});
+
+$('.carousel').carousel({
+  interval: state.transitionDur
+});
 
 $("#selectedResolutionDD").on("change", function () {
   state.selectedResolution = $("#selectedResolutionDD").val();
