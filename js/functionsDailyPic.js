@@ -16,8 +16,14 @@ var state = {
      imgWidth: "10%"
    }
  },
- transitionDur: 2000
+ transitionDur: 2000,
+ clickDate: []
 };
+
+var gageData;
+
+var svg;
+var g, x, y;
 
 var tooltip = d3.select("body").append("div")
   .attr("class", "tooltip")
@@ -36,6 +42,13 @@ function strToDate(s) {
   return dd;
 }  
 
+function dateToStr(s) {
+  var d = new Date(s);
+  var dd = d.toDateString();
+  return dd;
+}  
+
+
 function typeFlow(d){
   d.agency = d.agency_cd;
   d.site = d.site_no;
@@ -48,7 +61,7 @@ function typeFlow(d){
 $('#carousel_sawmill').on('slide.bs.carousel', function (e) {
   var slideFrom = $(this).find('.active').index();
   var slideTo = $(e.relatedTarget).index();
-  //console.log(slideFrom+' => '+slideTo);
+  console.log(slideFrom+' => '+slideTo);
   
   //console.log(e)
   
@@ -61,9 +74,7 @@ $('#carousel_sawmill').on('slide.bs.carousel', function (e) {
 
 });
 
-$('.carousel').carousel({
-  interval: state.transitionDur
-});
+//$('.carousel').carousel({ interval: state.transitionDur });
 
 $("#selectedResolutionDD").on("change", function () {
   state.selectedResolution = $("#selectedResolutionDD").val();
@@ -75,7 +86,6 @@ $("#selectedResolutionDD").on("change", function () {
   getImgs("72157681488505313","sawmill");
   $('.carousel').carousel('cycle');
 
-  
   $("#flickr-images_consArea").empty();
   getImgs("72157681560511503","consArea");
   
@@ -84,13 +94,81 @@ $("#selectedResolutionDD").on("change", function () {
 
 $("#carouselButtons :input").change(function() {
     if(this.id == 'stop') $('.carousel').carousel('pause');
-    if(this.id == 'go') $('.carousel').carousel('cycle');
+    if(this.id == 'go')   $('.carousel').carousel('cycle');
 });
+
+// Can't get the carousel speed to chagne with buttons
+/*
+$("#speedButtons :input").change(function() {
+    if(this.id == 'slow') {
+      console.log("slow")
+    
+      $('.carousel').carousel('pause');
+      $(".carousel-indicators").empty();
+      $(".carousel-inner").empty();
+      $("#flickr-images_sawmill").empty();
+      getImgs("72157681488505313","sawmill");
+      $('.carousel').carousel({ interval: 6000 });
+      $('.carousel').carousel('cycle');
+    }
+    if(this.id == 'med'){
+      console.log("med")
+    
+      $('.carousel').carousel('pause');
+      $(".carousel-indicators").empty();
+      $(".carousel-inner").empty();
+      $("#flickr-images_sawmill").empty();
+      getImgs("72157681488505313","sawmill");
+      $('.carousel').carousel({ interval: 4000 });
+      $('.carousel').carousel('cycle');
+    }
+    if(this.id == 'fast') {
+      console.log("fast")
+    
+      $('.carousel').empty();
+      $(".carousel-indicators").empty();
+      $(".carousel-inner").empty();
+      $("#flickr-images_sawmill").empty();
+      $('.carousel').carousel({ interval: 2000 });
+      getImgs("72157681488505313","sawmill");
+      $('.carousel').carousel('cycle');
+    }
+});
+
+*/  
+  
+  $(function () {
+    $('.carousel').carousel({
+        interval:500,
+        pause: "false"
+    });
+    $('#slow').click(function () {
+      c = $('.carousel')
+      opt = c.data()['bs.carousel'].options
+      opt.interval= 10000;
+      c.data({options: opt})
+      console.log("fast")
+    });
+    $('#fast').click(function () {
+      c = $('.carousel')
+      opt = c.data()['bs.carousel'].options
+      opt.interval= 1000;
+      c.data({options: opt})
+            console.log("slow")
+    });
+  });
+
 
 ///////
 //  
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
 
+var slideIndex = [];
+
+function findDate(dd) {
+  return dd >= state.clickDate;
+}
+      
 function getImgs(setID,setName) {
   
   var URL = "https://api.flickr.com/services/rest/" + 
@@ -117,6 +195,9 @@ function getImgs(setID,setName) {
         $('<div class="carousel-item"><img class="d-block img-fluid" src="' + img_src + '"><div class="carousel-caption d-none d-md-block"><h3>' + item.datetaken + ' </h3></div></div>').appendTo('.carousel-inner');
         
         $('<li data-target="#carousel_sawmill" data-slide-to="'+ i +'"></li>').appendTo('.carousel-indicators');
+
+        // add slide # to gageData
+        slideIndex[i] = strToDate(item.datetaken);
 
       }
 
@@ -153,7 +234,6 @@ function getImgs(setID,setName) {
 }
 
 
-
 function transCircle(dat){
   
      var circle = g.selectAll("circle")
@@ -170,16 +250,146 @@ function transCircle(dat){
      
      circle 
       .transition()
-      .duration(500)
+      .duration(600)
       
-      .attr("cx",function(d,i){
+      .attr("cx",function(d){
           return x(d.date);
       })
-      .attr("cy",function(d,i){
+      .attr("cy",function(d){
           return y(d.flow);
       });
 
 }
+
+
+////////////////////////////////////////
+// make the flow graph with transitions for the date dot. 
+// Graph is clickable to get picture for clicked date. Goes to next date.
+
+function makeFlowGraph(){
+
+    // Make the graph
+  svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var parseTime = d3.timeParse("%d-%b-%y");
+  
+  x = d3.scaleTime()
+      .rangeRound([0, width]);
+  
+  y = d3.scaleLinear()
+      .rangeRound([height, 0]);
+  
+  var line = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y(d.flow); });
+      
+      // Define the div for the tooltip
+  var divTTGraph = d3.select("svg").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+    
+  var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+  
+  
+  // get data for graph
+  
+  var timeQueryRange = '&startDT=2016-12-18' //&endDT=2017-06-28'
+	//var timeQuery = '&period=P7D'
+	//var gage = '01174565'; // swift river - issues with backwater
+	var gage = '01169900'; // south river, conway
+
+	$.getJSON('https://staging.waterservices.usgs.gov/nwis/dv/?format=json&sites=' + 
+	           gage + timeQueryRange, function(data) {
+		console.log('graphdata: ',data)
+		gageData = data.value.timeSeries[0].values[0].value
+		
+		$.each(gageData, function(i,d){ 
+		  var dd = new Date( d.dateTime );
+		  d.date = strToDate(dd);
+		  d.flow = +d.value;
+		})
+		
+		state.flowIn = gageData;
+    console.log(state);
+ 
+    x.domain(d3.extent(state.flowIn, function(d) { return d.date; }));
+    y.domain(d3.extent(state.flowIn, function(d) { return d.flow; }));
+  
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x))
+        .attr("stroke", "grey")
+      .select(".domain")
+        .remove();
+  
+    g.append("g")
+        .call(d3.axisLeft(y))
+        .attr("stroke", "grey")
+      .append("text")
+        .attr("fill", "lightgrey")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .attr("stroke", "grey")
+        .text("Flow (cfs)");
+  
+    g.append("path")
+        .datum(state.flowIn)
+        .attr("fill", "none")
+        .attr("stroke", "grey")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 1.5)
+        .attr("d", line);
+      
+   var picDates = g.selectAll("g") 
+                     .data(slideIndex);
+   
+   picDates.enter().append("rect")
+        .attr("x", function(d) { return x(d); })
+        .attr("y", y(d3.min(state.flowIn, function (d) { return d.flow; }) + 10))
+        .attr("width", 2)
+        .attr("height", 5)
+        .attr("stroke", "grey");
+
+// add ability to click on graph and return date to get the slide # to slide to 
+// https://bl.ocks.org/alandunning/cfb7dcd7951826b9eacd54f0647f48d3
+
+    svg.append("rect")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("click", mouseClick);
+
+    function mouseClick() {
+      // find the closest date
+      var x0 = x.invert(d3.mouse(this)[0]),
+          i = bisectDate(state.flowIn, x0, 1),
+          d0 = state.flowIn[i - 1],
+          d1 = state.flowIn[i],
+          d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+      var clickData = gageData.filter(function(dd){return dd.date == d.date});
+      state.clickDate = clickData[0].date;
+      
+      console.log(dateToStr(d.date), clickData[0].date, slideIndex.findIndex(findDate));
+      // finds the index (slide #) for the next date for which we have a picture
+      $('.carousel').carousel(slideIndex.findIndex(findDate));
+    }
+ 
+ });
+
+
+}
+
+
+
 
 function getClimateData(){
   
