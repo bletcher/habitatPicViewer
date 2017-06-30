@@ -58,6 +58,14 @@ function typeFlow(d){
   return d;
 }
 
+function typeTandP(d){
+  d.date = Date.parse(d.date);
+  d.temp = +d.meanT;
+  d.prec = +d.meanP;
+  
+  return d;
+}
+
 $('#carousel_sawmill').on('slide.bs.carousel', function (e) {
   var slideFrom = $(this).find('.active').index();
   var slideTo = $(e.relatedTarget).index();
@@ -135,7 +143,7 @@ $("#speedButtons :input").change(function() {
     }
 });
 
-*/  
+ 
   
   $(function () {
     $('.carousel').carousel({
@@ -158,7 +166,7 @@ $("#speedButtons :input").change(function() {
     });
   });
 
-
+*/ 
 ///////
 //  
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
@@ -387,6 +395,132 @@ function makeFlowGraph(){
 
 
 }
+
+
+////////////////////////////////////////
+// make the temperature and Precip graph with transitions for the date dot. 
+// Graph is clickable to get picture for clicked date. Goes to next date.
+
+function makeTandPGraph(){
+
+    // Make the graph
+  svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var parseTime = d3.timeParse("%d-%b-%y");
+  
+  x = d3.scaleTime()
+      .rangeRound([0, width]);
+  
+  y = d3.scaleLinear()
+      .rangeRound([height, 0]);
+  
+  var line = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y(d.meanT); });
+      
+  var line2 = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y(d.meanP); });
+      
+    
+  var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+  
+  
+  // get data for graph
+  
+ d3.csv("/data/dailyMeanTandP.csv", typeTandP, function(TandPData) {
+   
+		console.log('TandPdata: ',TandPData)
+
+/*
+		gageData = data.value.timeSeries[0].values[0].value
+		
+		$.each(gageData, function(i,d){ 
+		  var dd = new Date( d.dateTime );
+		  d.date = strToDate(dd);
+		  d.flow = +d.value;
+		})
+		
+		state.flowIn = gageData;
+    console.log(state);
+ 
+    x.domain(d3.extent(state.flowIn, function(d) { return d.date; }));
+    y.domain(d3.extent(state.flowIn, function(d) { return d.flow; }));
+  
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x))
+        .attr("stroke", "grey")
+      .select(".domain")
+        .remove();
+  
+    g.append("g")
+        .call(d3.axisLeft(y))
+        .attr("stroke", "grey")
+      .append("text")
+        .attr("fill", "lightgrey")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .attr("stroke", "grey")
+        .text("Flow (cfs)");
+  
+    g.append("path")
+        .datum(state.flowIn)
+        .attr("fill", "none")
+        .attr("stroke", "grey")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 1.5)
+        .attr("d", line);
+      
+   var picDates = g.selectAll("g") 
+                     .data(slideIndex);
+   
+   picDates.enter().append("rect")
+        .attr("x", function(d) { return x(d); })
+        .attr("y", y(d3.min(state.flowIn, function (d) { return d.flow; }) + 10))
+        .attr("width", 2)
+        .attr("height", 5)
+        .attr("stroke", "grey");
+
+// add ability to click on graph and return date to get the slide # to slide to 
+// https://bl.ocks.org/alandunning/cfb7dcd7951826b9eacd54f0647f48d3
+
+    svg.append("rect")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("click", mouseClick);
+
+    function mouseClick() {
+      // find the closest date
+      var x0 = x.invert(d3.mouse(this)[0]),
+          i = bisectDate(state.flowIn, x0, 1),
+          d0 = state.flowIn[i - 1],
+          d1 = state.flowIn[i],
+          d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+      var clickData = gageData.filter(function(dd){return dd.date == d.date});
+      state.clickDate = clickData[0].date;
+      
+      console.log(dateToStr(d.date), clickData[0].date, slideIndex.findIndex(findDate));
+      // finds the index (slide #) for the next date for which we have a picture
+      $('.carousel').carousel(slideIndex.findIndex(findDate));
+    }
+*/ 
+ });
+
+
+}
+
+
 
 
 

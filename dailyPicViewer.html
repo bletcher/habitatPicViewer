@@ -175,8 +175,12 @@
  -->     
         </div>
       
-      <div class="col-xs-6 col-md-6">
-        <svg width="500" height="300"></svg>  
+      <div class="col-xs-6 col-md-6"  >
+        <svg width="500" height="300" id="flowGraph"></svg>  
+      </div> 
+      
+      <div class="col-xs-6 col-md-6"  >
+       <svg width="500" height="300" id="TandPGraph"></svg>  
       </div> 
       
     </div>
@@ -239,7 +243,7 @@
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
-<script type='text/javascript' src="js/functionsDailyPic.js"></script>
+<script type='text/javascript' src="js/functionsDailyPic2.js"></script>
 
 <!-- 
 <script src="/libs/jquery/dist/jquery.min.js"></script>
@@ -254,6 +258,7 @@
   $(document).ready(function() {
 
     makeFlowGraph();
+    makeTandPGraph();
 
     getImgs("72157681488505313","sawmill"); 
     getImgs("72157681560511503","consArea");

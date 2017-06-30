@@ -37,10 +37,31 @@ nldas2_primary_forcing_rods <- function(lon, lat, start=as.POSIXct('1979-01-02',
   pf_data = Reduce(function(...){merge(..., by='datetime')}, d_list)
   return(pf_data)
 }
-data <- nldas2_primary_forcing_rods(-72.53, 42.54, as.POSIXct('2017-01-02', tz='UTC'), as.POSIXct('2017-06-01', tz='UTC'))
 
-dailyMeans <- data %>%
-  mutate( date = as.Date(datetime) ) %>%
-  group_by(date) %>%
-  summarize( meanT = mean(TMP2m - 273.15), 
-             meanP = mean(APCPsfc) )
+
+loadData <- function(){
+  
+  load("R/dailyMeanTandP.RData")
+  maxDateExisting <- max( dailyMeans$maxDateTime, na.rm=T )
+  
+  dataNew <- nldas2_primary_forcing_rods(-72.53, 42.54, maxDateExisting, as.POSIXct(Sys.Date(), tz='UTC'))
+  
+  if(!exists('dataNew')){
+    stop('No new data')
+  }
+  
+  data <- bind_rows(data,dataNew)
+  
+  dailyMeans <- data %>%
+    mutate( date = as.Date(datetime) ) %>%
+    group_by(date) %>%
+    summarize( meanT = mean(TMP2m - 273.15), 
+               meanP = mean(APCPsfc),
+               maxDateTime = max(datetime))
+  
+  save(dailyMeans, data, file = "R/dailyMeanTandP.RData")
+  write.csv(dailyMeans, file = "data/dailyMeanTandP.csv")
+}
+
+loadData()
+# get max date, use that as start, get from there to now, append to csv file
