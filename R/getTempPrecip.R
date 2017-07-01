@@ -54,6 +54,7 @@ loadData <- function(){
   
   dailyMeans <- data %>%
     mutate( date = as.Date(datetime) ) %>%
+    filter(APCPsfc<1000) %>%
     group_by(date) %>%
     summarize( meanT = mean(TMP2m - 273.15), 
                meanP = mean(APCPsfc),
