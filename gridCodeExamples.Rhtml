@@ -1,0 +1,109 @@
+http://bl.ocks.org/eesur/3fc83ddc4c060e6bd43e
+
+Note: If you don't want to use lodash
+
+change _.round to Math.round
+
+the loop from _.times(squaresColumn, function(n) { to for (var n = 0; n < squaresColumn; n++;) {
+
+index.html#
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>d3 | simple square grid</title> 
+  <meta name="author" content="Sundar Singh | eesur.com">
+  
+  <link rel="stylesheet" href="main.css">
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" charset="utf-8"></script>
+</head>
+
+<header>
+  <h4 id="grid-ref">roll-over grid</h4>
+</header>
+
+<section id='grid'></section>
+
+
+<script src="d3_code_simple_grid.js" charset="utf-8"></script>
+
+</body>
+</html>
+d3_code_simple_grid.js#
+
+var square = 20,
+  w = 900,
+  h = 300;
+
+// create the svg
+var svg = d3.select('#grid').append('svg')
+  .attr({
+    width: w,
+    height: h
+  });
+
+// calculate number of rows and columns
+var squaresRow = _.round(w / square);
+var squaresColumn = _.round(h / square);
+
+// loop over number of columns
+_.times(squaresColumn, function(n) {
+
+  // create each set of rows
+  var rows = svg.selectAll('rect' + ' .row-' + (n + 1))
+    .data(d3.range(squaresRow))
+    .enter().append('rect')
+    .attr({
+      class: function(d, i) {
+        return 'square row-' + (n + 1) + ' ' + 'col-' + (i + 1);
+      },
+      id: function(d, i) {
+        return 's-' + (n + 1) + (i + 1);
+      },
+      width: square,
+      height: square,
+      x: function(d, i) {
+        return i * square;
+      },
+      y: n * square,
+      fill: '#fff',
+      stroke: '#FDBB30'
+    });
+
+    // test with some feedback
+    var test = rows.on('mouseover', function (d, i) {
+      d3.select('#grid-ref').text(function () {
+        return 'row: ' + (n + 1) + ' | ' + 'column: ' + (i + 1);
+      });
+      d3.selectAll('.square').attr('fill', 'white');
+      d3.select(this).attr('fill', '#7AC143');
+    });
+});
+main.css#
+
+.font-styles {
+  font-family: "Source Code Pro", Consolas, monaco, monospace;
+  font-size: 18px; 
+  line-height: 1.5; 
+  font-weight: 400; 
+}
+
+body{
+  position: relative;
+  font-family: "Source Code Pro", Consolas, monaco, monospace;
+  font-size: 18px; 
+  line-height: 1.5; 
+  font-weight: 400; 
+  color: #7AC143;
+  background-color:  #eee;
+  padding: 20px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+////////////////////////////////////////////////////////////////
+

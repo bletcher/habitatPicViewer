@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily pic viewer</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"  type="text/css">
+  <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"  type="text/css"> 
+  <link rel="stylesheet" href="libs/landing-page/css/landing-page.css"  type="text/css">
+  <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css"  type="text/css">
+
+<!-- From bootstrap api -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+
+  <style>
+    
+    /* Header */
+    .ice-header {
+      position: fixed;
+      width: 100%;
+      height: 60px;
+      top: 0;
+      left: 0;
+      background: rgba(40, 40, 40, 0.5);
+      color: white;
+      padding: 10px;
+      font-family: 'Open Sans', "proxima-nova-alt", Helvetica, Arial, sans-serif;
+      z-index: 2000;
+    }
+    
+    .ice-header .brand {
+      font-variant: small-caps;
+      font-size: 24pt;
+    }
+    
+    .ice-header a {
+      color: white;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      line-height: 1.5em;
+    }
+    
+    .ice-header a:visited {
+      color: white;
+    }
+
+
+    
+    
+    body, h1, h2, h3, h4, h5, h6 {
+      font-weight: 400;
+      font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
+    }
+
+    .top-section {
+      background: #222;
+      color: white;
+      
+    }
+    
+    .funding-section img {
+      margin: 10px 25px 10px 25px;
+    }
+
+
+    div.tooltip {
+      position: absolute;
+      padding: 8px;
+      font: 12px sans-serif;
+      background: #C6C6C6;
+      pointer-events: none;
+      height: auto;
+      width: 480px;
+      text-align: center;
+    }
+    
+    .object-fit_contain { object-fit: contain }
+    
+    img[class] { 
+      width: 100%;
+      height: 100%;
+    }
+    
+    img2 {height:10%; width:10%; }
+    
+    .carousel-inner > .carousel-item > img,
+    .carousel-inner > .carousel-item > a > img {
+      width: 75%;
+      margin: auto;
+    }
+    
+    .carousel-indicators {
+       display: inline-block;
+       width: 80%;
+       margin: auto;
+    }
+    
+    .carousel-caption {top: 2px;}
+
+    .overlay {
+      fill: none;
+      pointer-events: all;
+    }
+    
+    .focus circle {
+      fill: #F1F3F3;
+      stroke: #6F257F;
+      stroke-width: 5px;
+    }
+      
+    .hover-line {
+      stroke: #6F257F;
+      stroke-width: 2px;
+      stroke-dasharray: 3,3;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <div class="ice-header">
+    <span class="brand">SHEDS: Daily pictures viewer</span>
+    <div class="pull-right">
+      <a href="http://ice.ecosheds.org">ICE Home</a> |
+      <a href="http://ecosheds.org">SHEDS Home</a>
+    </div>
+  </div>
+
+  <div class="content-section-b top-section">
+    <div class="container" style="margin-top: 30px;">
+      <div class="col-xs-6 col-md-6">
+  
+        <div id="carousel_sawmill" class="carousel slide" data-ride="carousel">
+          
+          <ol class="carousel-indicators">
+          </ol>
+          
+          <div class="carousel-inner" role="listbox">
+          </div>
+      
+          <a class="carousel-control-prev" href="#carousel_sawmill" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carousel_sawmill" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        
+        </div>
+        
+        <div class="form-group">
+          <div class="col-xs-8 col-xs-offset-2">
+          <label for="selectedResolutionDD" class="col-xs-6" style="margin-top: 30px; font: 16px sans-serif;">Image resolution:</label>
+          <div class="col-xs-4">
+            <select class="form-control" id="selectedResolutionDD" style="margin-top: 30px">
+              <option value="m">Low</option>
+              <option selected="selected" value="z">Medium</option>
+              <option value="c">High</option>
+            </select>
+          </div>
+        </div>
+        </div>
+        
+        <div class="col-xs-8 col-xs-offset-4" style="margin-top: 30px;">
+          <div id="carouselButtons" class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="go" autocomplete="off" checked> Cycle
+            </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="stop" autocomplete="off"> Stop
+            </label>
+          </div>
+        </div>
+ <!--       
+        <div class="form-group">
+          <div class="col-xs-10">
+          <label for="speedButtons" class="col-xs-6" style="margin-top: 30px; font: 16px sans-serif;">Select cycle speed:</label>
+            <div id="speedButtons" class="btn-group" data-toggle="buttons" style="margin-top: 30px;">
+              <label class="btn btn-primary active">
+                <input type="radio" name="options" id="slow" autocomplete="off" checked> Slow
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="med" autocomplete="off"> Medium
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="fast" autocomplete="off"> Fast
+              </label>
+            </div>
+          </div>
+        </div>
+      
+ -->     
+        </div>
+      
+      <div class="col-xs-6 col-md-6"  >
+        <svg width="500" height="300" id="flowGraph"></svg>  
+      </div> 
+      
+      <div class="col-xs-6 col-md-6"  >
+       <svg width="500" height="300" id="TandPGraph"></svg>  
+      </div> 
+      
+    </div>
+  </div>
+
+  <div class="content-section-b">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+
+          <h2>Sawmill River from the Montague Conservation Area bridge</h2>
+          <div class="row" style="margin-top: 50px; margin-bottom: 20px">
+            <div id="flickr-images_sawmill"></div>
+          </div>  
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section-a">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <h2>Data sources</h2>
+          <p>Images: Taken mostly by Ben with a Samsung S7 cell phone</p>
+          <p>Air temperature: NASA's <a href="https://ldas.gsfc.nasa.gov/nldas/" x target="_blank"> Land Data Assimilation Systems</a> </p>
+          <p>Precipitation: NASA's <a href="https://ldas.gsfc.nasa.gov/nldas/" x target="_blank"> Land Data Assimilation Systems</a> </p>
+          <p>Stream flow: USGS's <a href="https://waterdata.usgs.gov/nwis/rt" x target="_blank"> Stream gage network</a> </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section-b">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <h2>Project Team</h2>
+          <p>Ben Letcher, an ecologist with <a href="https://www.lsc.usgs.gov/?q=cafb-ben-letcher" x target="_blank">USGS Conte Anadromous Fish Research Center</a> </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="copyright text-muted">Copyright © 2017 SHEDS Development Team</p>
+          <p class="copyright text-muted"><strong>Disclaimer:</strong> This web site (SHEDS) has not yet been approved by the U.S. Geological Survey (USGS). As such, it does not represent any official USGS finding or policy.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script type='text/javascript' src="js/globalVariables.js"></script>
+<script type='text/javascript' src="js/functions.js"></script>
+<script type='text/javascript' src="js/getData.js"></script>
+<!-- 
+<script src="/libs/jquery/dist/jquery.min.js"></script>
+<script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script> 
+<script src="/libs/intro.js/minified/intro.min.js"></script>
+-->
+
+<script>
+
+
+
+  $(document).ready(function() {
+
+    
+
+    makeFlowGraph();
+    makeTandPGraph();
+
+    getImgs("72157681488505313","sawmill"); 
+    //getImgs("72157681560511503","consArea");
+  
+  }); 
+  
+
+    
+  //var formatTime = d3.time.format("%e %B");  
+  
+/*  d3.csv("/data/swiftRiverFlow.csv", typeFlow, function(f) {
+
+    state.flowIn = f;
+    console.log(state);
+ 
+  
+    x.domain(d3.extent(state.flowIn, function(d) { return d.date; }));
+    y.domain(d3.extent(state.flowIn, function(d) { return d.flow; }));
+  
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x))
+        .attr("stroke", "grey")
+      .select(".domain")
+        .remove();
+  
+    g.append("g")
+        .call(d3.axisLeft(y))
+        .attr("stroke", "grey")
+      .append("text")
+        .attr("fill", "lightgrey")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .attr("stroke", "grey")
+        .text("Flow (cfs)");
+  
+    g.append("path")
+        .datum(state.flowIn)
+        .attr("fill", "none")
+        .attr("stroke", "grey")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 1.5)
+        .attr("d", line);
+      
+  });     
+*/
+
+
+
+</script>
+
+</body>
+</html>
+
