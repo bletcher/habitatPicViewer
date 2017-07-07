@@ -484,8 +484,6 @@ function makeTandPGraph(){
 }
 
 
-
-
 function startTour () {
   var intro = introJs();
   intro.setOptions({

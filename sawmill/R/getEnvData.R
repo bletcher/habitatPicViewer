@@ -1,3 +1,7 @@
+# this file is run every Sunday using crontab with this command:
+# edit the file by poing into putty and running 'crontab -e'
+# 0 0 * * 0 cd /home/ben/webApps/habitatPicViewer/ && Rscript sawmill/R/getEnvData.R > /home/ben/webApps/habitatPicViewer-getEnvData.log 2>&1
+
 library(httr)
 library(dplyr)
 library(zoo)
