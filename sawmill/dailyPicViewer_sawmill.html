@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"  type="text/css"> 
   <link rel="stylesheet" href="libs/landing-page/css/landing-page.css"  type="text/css">
   <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css"  type="text/css">
+  <link rel="stylesheet" href="/libs/intro.js/minified/introjs.min.css">
 
 <!-- From bootstrap api -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
@@ -156,7 +157,7 @@ img2 {height:10%; width:10%; }
         </div>
         
         <div class="form-group">
-          <div class="col-xs-8 col-xs-offset-2">
+          <div class="col-xs-8 col-xs-offset-2" id="imageRes">
           <label for="selectedResolutionDD" class="col-xs-6" style="margin-top: 30px; font: 16px sans-serif;">Image resolution:</label>
           <div class="col-xs-4">
             <select class="form-control" id="selectedResolutionDD" style="margin-top: 30px">
@@ -178,7 +179,8 @@ img2 {height:10%; width:10%; }
             </label>
           </div>
         </div>
- <!--       
+        
+ <!-- Couldn't get this to work in code section      
         <div class="form-group">
           <div class="col-xs-10">
           <label for="speedButtons" class="col-xs-6" style="margin-top: 30px; font: 16px sans-serif;">Select cycle speed:</label>
@@ -197,9 +199,9 @@ img2 {height:10%; width:10%; }
         </div>
       
  -->     
-        </div>
+      </div>
       
-      <div class="col-xs-6 col-md-6"  >
+      <div class="col-xs-6 col-md-6" id="graph1">
         <div class="row">
           <div class="col-xs-12 col-xs-offset-7">
           <label for="prcpButtons" style=" font: 14px sans-serif; ">Show Precipitation:</label>
@@ -221,7 +223,7 @@ img2 {height:10%; width:10%; }
       
       <div class="col-xs-6 col-md-6" >
         
-        <div class="row" style="margin-top: 10px" >
+        <div class="row" style="margin-top: 20px" >
           <div class="col-xs-12 col-xs-offset-6">
           <label for="tempButtons" style=" font: 14px sans-serif; ">Show temperature graph:</label>
               <div id="tempButtons" class="btn-group " data-toggle="buttons">
@@ -246,7 +248,7 @@ img2 {height:10%; width:10%; }
       <div class="row">
         <div class="col-xs-12 col-md-12">
 
-          <h2>Sawmill River from the Montague Conservation Area bridge</h2>
+          <h2 id="gridHeader">Sawmill River from the Montague Conservation Area bridge</h2>
           <div class="row" style="margin-top: 50px; margin-bottom: 20px">
             <div id="flickr-images_sawmill"></div>
           </div>  
@@ -268,7 +270,6 @@ img2 {height:10%; width:10%; }
           <p>Air temperature: NASA's <a href="https://ldas.gsfc.nasa.gov/nldas/" x target="_blank"> Land Data Assimilation Systems</a> </p>
           <p>Precipitation: NASA's <a href="https://ldas.gsfc.nasa.gov/nldas/" x target="_blank"> Land Data Assimilation Systems</a> </p>
           <p>Stream flow: USGS's <a href="https://waterdata.usgs.gov/nwis/rt" x target="_blank"> Stream gage network</a> </p>
-
 
         </div>
       </div>
@@ -306,17 +307,13 @@ img2 {height:10%; width:10%; }
 <script type='text/javascript' src="js/getData.js"></script>
 <!-- 
 <script src="/libs/jquery/dist/jquery.min.js"></script>
-<script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script> 
+<script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>  -->
 <script src="/libs/intro.js/minified/intro.min.js"></script>
--->
+
 
 <script>
 
-
-
   $(document).ready(function() {
-
-    
 
     makeFlowGraph();
     makeTandPGraph();
@@ -324,53 +321,8 @@ img2 {height:10%; width:10%; }
     getImgs("72157681488505313","sawmill"); 
     //getImgs("72157681560511503","consArea");
   
+    startTour();
   }); 
-  
-
-    
-  //var formatTime = d3.time.format("%e %B");  
-  
-/*  d3.csv("/data/swiftRiverFlow.csv", typeFlow, function(f) {
-
-    state.flowIn = f;
-    console.log(state);
- 
-  
-    x.domain(d3.extent(state.flowIn, function(d) { return d.date; }));
-    y.domain(d3.extent(state.flowIn, function(d) { return d.flow; }));
-  
-    g.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x))
-        .attr("stroke", "grey")
-      .select(".domain")
-        .remove();
-  
-    g.append("g")
-        .call(d3.axisLeft(y))
-        .attr("stroke", "grey")
-      .append("text")
-        .attr("fill", "lightgrey")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", "0.71em")
-        .attr("text-anchor", "end")
-        .attr("stroke", "grey")
-        .text("Flow (cfs)");
-  
-    g.append("path")
-        .datum(state.flowIn)
-        .attr("fill", "none")
-        .attr("stroke", "grey")
-        .attr("stroke-linejoin", "round")
-        .attr("stroke-linecap", "round")
-        .attr("stroke-width", 1.5)
-        .attr("d", line);
-      
-  });     
-*/
-
-
 
 </script>
 

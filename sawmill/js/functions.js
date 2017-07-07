@@ -424,7 +424,7 @@ function makeTandPGraph(){
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
         .attr("stroke", "grey")
-        .text("Temperature (F)");
+        .text("Air temperature (F)");
         
     g2.append("line")         
       .style("stroke", "grey") 
@@ -482,3 +482,44 @@ function makeTandPGraph(){
     }
 
 }
+
+
+
+
+function startTour () {
+  var intro = introJs();
+  intro.setOptions({
+    showStepNumbers: false,
+    steps: [
+      {
+        intro: '<p class="text-center" style="font-size:20px">Welcome to the<br><strong>Daily Picture Viewer</strong><br>demo for images from the Sawmill river in Montague, MA<p>Click Next to begin the tour of this dashboard, or Skip to quit the tour and get right to exploring the data.</p>'
+      },
+      {
+        element: '#carousel_sawmill',
+        intro: '<p>The images cycle through time in this carousel. Mouse over the image to pause cycling and hit the forward or back arrows to move the slides one at a time</p>'
+      },
+      {
+        element: '.carousel-indicators',
+        intro: '<p>Each dash is an indicator for an image. Click on a dash to jump to the image.</p>'
+      },
+      {
+        element: '#imageRes',
+        intro: '<p>Change the image resolution from medium to high. Medium is the default.</p>'
+      },      
+      {
+        element: '#carouselButtons',
+        intro: '<p>Stop or resume cycling of the images in the carousel.</p>'
+      },
+      {
+        element: '#graph1',
+        intro: '<p>This panel shows stream flow over time from a nearby USGS stream gage (South River, Conway, MA). Precipitation is estimated for the stream location. The dot on the graph shows the flow for the current pictures date. Clicking on the graph will jump the image in the carousel to clicked date. You can use this to show an image for chosen the flow or preciptiation on the graph.</p>'
+      },
+      {
+        element: '#gridHeader',
+        intro: '<p>This section show a grid of the same images that are in the carousel. Mouse over an image to see a larger view.</p>'
+      }
+    ]
+  });
+  intro.start();
+}
+
