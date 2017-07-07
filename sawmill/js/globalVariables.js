@@ -16,7 +16,7 @@ var state = {
       imgWidth: "10%"
     }
   },
-  transitionDur: 2000,
+  transitionDur: 4000,
   clickDate: []
 };
 
