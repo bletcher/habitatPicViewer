@@ -79,6 +79,11 @@ $("#prcpButtons :input").change(function() {
     if(this.id == 'no')  { d3.select("#prcpLine").style("opacity", 0); d3.select("#prcpAxis").style("opacity", 0); }
 });
 
+$("#tempButtons :input").change(function() {
+    if(this.id == 'yes') makeTandPGraph();
+    if(this.id == 'no') $("#TandPGraph").empty();
+});
+
 ///////
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
 
@@ -405,7 +410,7 @@ function makeTandPGraph(){
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
         .attr("stroke", "grey")
-        .text("Temperature (C)");
+        .text("Air temperature (C)");
       
      var widthMinus = width - 3;    
      g2.append("g")

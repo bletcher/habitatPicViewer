@@ -69,7 +69,6 @@ body, h1, h2, h3, h4, h5, h6 {
   margin: 10px 25px 10px 25px;
 }
 
-
 div.tooltip {
   position: absolute;
   padding: 8px;
@@ -126,7 +125,7 @@ img2 {height:10%; width:10%; }
 <body>
 
   <div class="ice-header">
-    <span class="brand">SHEDS: Daily picture viewer</span>
+    <span class="brand">SHEDS: Daily Picture Viewer</span>
     <div class="pull-right">
       <a href="http://ice.ecosheds.org">ICE Home</a> |
       <a href="http://ecosheds.org">SHEDS Home</a>
@@ -171,10 +170,10 @@ img2 {height:10%; width:10%; }
         
         <div class="col-xs-8 col-xs-offset-4" style="margin-top: 30px;">
           <div id="carouselButtons" class="btn-group" data-toggle="buttons">
-            <label class="btn btn-primary active">
+            <label class="btn btn-default active">
               <input type="radio" name="options" id="go" autocomplete="off" checked> Cycle
             </label>
-            <label class="btn btn-primary">
+            <label class="btn btn-default">
               <input type="radio" name="options" id="stop" autocomplete="off"> Stop
             </label>
           </div>
@@ -201,21 +200,42 @@ img2 {height:10%; width:10%; }
         </div>
       
       <div class="col-xs-6 col-md-6"  >
+        <div class="row">
+          <div class="col-xs-12 col-xs-offset-7">
+          <label for="prcpButtons" style=" font: 14px sans-serif; ">Show Precipitation:</label>
+
+              <div id="prcpButtons" class="btn-group " data-toggle="buttons">
+                <label class="btn btn-default btn-xs active">
+                  <input type="radio" name="options" id="yes" autocomplete="off" checked> Yes
+                </label>
+                <label class="btn btn-default btn-xs">
+                  <input type="radio" name="options" id="no" autocomplete="off"> No
+                </label>
+              </div>
+            </div>
+        </div>
         
-          <div id="prcpButtons" class="btn-group" data-toggle="buttons">
-            <label class="btn btn-primary active">
-              <input type="radio" name="options" id="yes" autocomplete="off" checked> Show prcp
-            </label>
-            <label class="btn btn-primary">
-              <input type="radio" name="options" id="no" autocomplete="off"> No prcp
-            </label>
-          </div>
+        <svg width="500" height="300" id="flowGraph"></svg> 
         
-        <svg width="500" height="300" id="flowGraph"></svg>  
       </div> 
       
-      <div class="col-xs-6 col-md-6"  >
-       <svg width="500" height="300" id="TandPGraph"></svg>  
+      <div class="col-xs-6 col-md-6" >
+        
+        <div class="row" style="margin-top: 10px" >
+          <div class="col-xs-12 col-xs-offset-6">
+          <label for="tempButtons" style=" font: 14px sans-serif; ">Show temperature graph:</label>
+              <div id="tempButtons" class="btn-group " data-toggle="buttons">
+                <label class="btn btn-default btn-xs active">
+                  <input type="radio" name="options" id="yes" autocomplete="off" checked> Yes
+                </label>
+                <label class="btn btn-default btn-xs">
+                  <input type="radio" name="options" id="no" autocomplete="off"> No
+                </label>
+              </div>
+            </div>
+        </div>
+        
+        <svg width="500" height="300" id="TandPGraph"></svg>  
       </div> 
       
     </div>
