@@ -74,6 +74,11 @@ $("#carouselButtons :input").change(function() {
 });
 
 
+$("#prcpButtons :input").change(function() {
+    if(this.id == 'yes') { d3.select("#prcpLine").style("opacity", 1); d3.select("#prcpAxis").style("opacity", 1); }
+    if(this.id == 'no')  { d3.select("#prcpLine").style("opacity", 0); d3.select("#prcpAxis").style("opacity", 0); }
+});
+
 ///////
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
 
@@ -251,6 +256,7 @@ function makeFlowGraph(){
         .call(d3.axisRight(y2))
         .attr("transform", "translate(" + widthMinus + ",0)")
         .attr("stroke", "lightblue")
+        .attr("id", "prcpAxis")
       .append("text")
         .attr("fill", "lightblue")
         .attr("transform", "rotate(-90)")
@@ -272,6 +278,7 @@ function makeFlowGraph(){
       g.append("path")
         .datum(state.env)
         .attr("class", "line")
+        .attr("id", "prcpLine")
         .attr("fill", "none")
         .attr("stroke", "lightblue")
         .attr("stroke-linejoin", "round")
@@ -422,7 +429,7 @@ function makeTandPGraph(){
       .attr("y2", y2(0));   
   
     g2.append("path")
-        .datum(state.env)
+      .datum(state.env)
         .attr("class", "line")
         .attr("fill", "none")
         .attr("stroke", "grey")

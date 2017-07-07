@@ -19,114 +19,114 @@
 
 
 
-  <style>
-    
-    /* Header */
-    .ice-header {
-      position: fixed;
-      width: 100%;
-      height: 60px;
-      top: 0;
-      left: 0;
-      background: rgba(40, 40, 40, 0.5);
-      color: white;
-      padding: 10px;
-      font-family: 'Open Sans', "proxima-nova-alt", Helvetica, Arial, sans-serif;
-      z-index: 2000;
-    }
-    
-    .ice-header .brand {
-      font-variant: small-caps;
-      font-size: 24pt;
-    }
-    
-    .ice-header a {
-      color: white;
-      font-weight: bold;
-      letter-spacing: 0.1em;
-      line-height: 1.5em;
-    }
-    
-    .ice-header a:visited {
-      color: white;
-    }
+<style>
+
+/* Header */
+.ice-header {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  top: 0;
+  left: 0;
+  background: rgba(40, 40, 40, 0.5);
+  color: white;
+  padding: 10px;
+  font-family: 'Open Sans', "proxima-nova-alt", Helvetica, Arial, sans-serif;
+  z-index: 2000;
+}
+
+.ice-header .brand {
+  font-variant: small-caps;
+  font-size: 24pt;
+}
+
+.ice-header a {
+  color: white;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  line-height: 1.5em;
+}
+
+.ice-header a:visited {
+  color: white;
+}
 
 
-    
-    
-    body, h1, h2, h3, h4, h5, h6 {
-      font-weight: 400;
-      font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
-    }
-
-    .top-section {
-      background: #222;
-      color: white;
-      
-    }
-    
-    .funding-section img {
-      margin: 10px 25px 10px 25px;
-    }
 
 
-    div.tooltip {
-      position: absolute;
-      padding: 8px;
-      font: 12px sans-serif;
-      background: #C6C6C6;
-      pointer-events: none;
-      height: auto;
-      width: 480px;
-      text-align: center;
-    }
-    
-    .object-fit_contain { object-fit: contain }
-    
-    img[class] { 
-      width: 100%;
-      height: 100%;
-    }
-    
-    img2 {height:10%; width:10%; }
-    
-    .carousel-inner > .carousel-item > img,
-    .carousel-inner > .carousel-item > a > img {
-      width: 75%;
-      margin: auto;
-    }
-    
-    .carousel-indicators {
-       display: inline-block;
-       width: 80%;
-       margin: auto;
-    }
-    
-    .carousel-caption {top: 2px;}
+body, h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
+}
 
-    .overlay {
-      fill: none;
-      pointer-events: all;
-    }
+.top-section {
+  background: #222;
+  color: white;
+  
+}
+
+.funding-section img {
+  margin: 10px 25px 10px 25px;
+}
+
+
+div.tooltip {
+  position: absolute;
+  padding: 8px;
+  font: 12px sans-serif;
+  background: #C6C6C6;
+  pointer-events: none;
+  height: auto;
+  width: 480px;
+  text-align: center;
+}
+
+.object-fit_contain { object-fit: contain }
+
+img[class] { 
+  width: 100%;
+  height: 100%;
+}
+
+img2 {height:10%; width:10%; }
+
+.carousel-inner > .carousel-item > img,
+.carousel-inner > .carousel-item > a > img {
+  width: 75%;
+  margin: auto;
+}
+
+.carousel-indicators {
+   display: inline-block;
+   width: 80%;
+   margin: auto;
+}
+
+.carousel-caption {top: 2px;}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: #F1F3F3;
+  stroke: #6F257F;
+  stroke-width: 5px;
+}
+  
+.hover-line {
+  stroke: #6F257F;
+  stroke-width: 2px;
+  stroke-dasharray: 3,3;
+}
     
-    .focus circle {
-      fill: #F1F3F3;
-      stroke: #6F257F;
-      stroke-width: 5px;
-    }
-      
-    .hover-line {
-      stroke: #6F257F;
-      stroke-width: 2px;
-      stroke-dasharray: 3,3;
-    }
-    
-  </style>
+</style>
 </head>
 <body>
 
   <div class="ice-header">
-    <span class="brand">SHEDS: Daily pictures viewer</span>
+    <span class="brand">SHEDS: Daily picture viewer</span>
     <div class="pull-right">
       <a href="http://ice.ecosheds.org">ICE Home</a> |
       <a href="http://ecosheds.org">SHEDS Home</a>
@@ -201,6 +201,16 @@
         </div>
       
       <div class="col-xs-6 col-md-6"  >
+        
+          <div id="prcpButtons" class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="yes" autocomplete="off" checked> Show prcp
+            </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="no" autocomplete="off"> No prcp
+            </label>
+          </div>
+        
         <svg width="500" height="300" id="flowGraph"></svg>  
       </div> 
       
@@ -231,10 +241,14 @@
       <div class="row">
         <div class="col-xs-12 col-md-8">
           <h2>Data sources</h2>
+          <br>
           <p>Images: Taken mostly by Ben with a Samsung S7 cell phone</p>
+          <p>Go <a href = "https://www.google.com/maps/@42.539499,-72.5308947,3a,75y,200.3h,90t/data=!3m8!1e1!3m6!1s-WqXbj49pp24%2FWVkfxbCLO6I%2FAAAAAAAAFj8%2FvhxRnZlX4dAEsFadYxVnsB30mH9OCwfUgCLIBGAYYCw!2e4!3e11!6s%2F%2Flh5.googleusercontent.com%2F-WqXbj49pp24%2FWVkfxbCLO6I%2FAAAAAAAAFj8%2FvhxRnZlX4dAEsFadYxVnsB30mH9OCwfUgCLIBGAYYCw%2Fw203-h100-k-no-pi0-ya310.24234-ro-0-fo100%2F!7i10240!8i5120" x target="_blank"> here </a>for a 360 degree view of the picture location</p> 
+          <br>
           <p>Air temperature: NASA's <a href="https://ldas.gsfc.nasa.gov/nldas/" x target="_blank"> Land Data Assimilation Systems</a> </p>
           <p>Precipitation: NASA's <a href="https://ldas.gsfc.nasa.gov/nldas/" x target="_blank"> Land Data Assimilation Systems</a> </p>
           <p>Stream flow: USGS's <a href="https://waterdata.usgs.gov/nwis/rt" x target="_blank"> Stream gage network</a> </p>
+
 
         </div>
       </div>
