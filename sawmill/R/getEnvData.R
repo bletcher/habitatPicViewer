@@ -114,7 +114,7 @@ envData <- daySeq %>% left_join( flowData ) %>% left_join( TandPData )
 envData$datePlus1 <- envData$dates + 1
 
 # merge in moving mean average temp
-envData$jul <- yday(envData$dates)
+envData$jul <- yday(envData$datePlus1)
 envData <- left_join(envData, moveAvgTemp)
 
 ########################################

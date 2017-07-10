@@ -7,6 +7,7 @@ function typeEnvData(d){
   d.prcp = setToNull(d.meanP);
   d.flow = setToNull(d.flow);
   d.flowApprox = setToNull(d.flowApprox);
+  d.meanTemp = setToNull(d.meanAvgTemp);
   
   return d;
 }
