@@ -52,6 +52,7 @@ $('#carousel_sawmill').on('slide.bs.carousel', function (e) {
 
 //$('.carousel').carousel({ interval: state.transitionDur });
 
+/*
 $("#selectedResolutionDD").on("change", function () {
   state.selectedResolution = $("#selectedResolutionDD").val();
   
@@ -67,6 +68,7 @@ $("#selectedResolutionDD").on("change", function () {
   
   console.log("#selectedResolutionDD change", state.selectedResolution);
 });
+*/
 
 $("#carouselButtons :input").change(function() {
     if(this.id == 'stop') $('.carousel').carousel('pause');
@@ -504,43 +506,27 @@ function startTour () {
         element: '.carousel-indicators',
         intro: '<p>Each dash is an indicator for an image. Click on a dash to jump to the image.</p>'
       },
-      {
+ /*     {
         element: '#imageRes',
         intro: '<p>Change the image resolution from medium to high. Medium is the default.</p>'
-      },      
+      },   */     
       {
         element: '#carouselButtons',
         intro: '<p>Stop or resume cycling of the images in the carousel.</p>'
       },
       {
         element: '#graph1',
-        intro: '<p>This panel shows stream flow over time from a nearby USGS stream gage (South River, Conway, MA). Precipitation is estimated for the stream location. The dot on the graph shows the flow for the current pictures date. Clicking on the graph will jump the image in the carousel to clicked date. You can use this to show an image for chosen the flow or preciptiation on the graph.</p>'
+        intro: '<p>This panel shows stream flow over time from a nearby USGS stream gage (South River, Conway, MA). Precipitation is estimated for the stream location. The dot on the graph shows the flow for the date of the current picture. Clicking on the graph will jump the image in the carousel to clicked date. You can use this to show an image for a chosen flow or preciptiation on the graph.</p>'
       },
       {
         element: '#gridHeader',
-        intro: '<p>This section show a grid of the same images that are in the carousel. Mouse over an image to see a larger view.</p>'
+        intro: '<p>This section shows a grid of the same images that are in the carousel. Mouse over an image to see a larger view.</p>'
       }
     ]
   });
   intro.start();
 }
 
-//introJs.fn.oncomplete(function() { console.log("Finished intro"); $('.carousel').carousel('cycle');  });
-
-//https://stackoverflow.com/questions/42954494/introjs-callback-function-upon-skip-or-done/42955846
-introJs.oncomplete(handleOnComplete);
-introJs.onexit(() => handleOnExit(introJs));
-
-function handleOnComplete() {
-  console.log(this._currentStep); // this is bound to the introJs object
-   $('.carousel').carousel('cycle');
-}
-function handleOnExit(introJs) {
-  const currentStep = introJs._currentStep;
-  if (currentStep < introJs._options.steps.length) {
-     $('.carousel').carousel('cycle');
-    //doSomethingOnSkip();
-  }
-}
-
+// Start the carousel when exit the intro
+introJs.fn.onexit(function() { console.log("Finished intro"); $('.carousel').carousel('cycle');  });
 

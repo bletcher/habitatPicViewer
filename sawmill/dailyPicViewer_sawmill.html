@@ -121,6 +121,10 @@ img2 {height:10%; width:10%; }
   stroke-dasharray: 3,3;
 }
     
+.introjs-tooltip {
+  font-size: 1.5rem;
+}    
+    
 </style>
 </head>
 <body>
@@ -137,7 +141,7 @@ img2 {height:10%; width:10%; }
     <div class="container" style="margin-top: 15px;">
       <div class="col-xs-6 col-md-6">
   
-        <div id="carousel_sawmill" class="carousel slide" data-ride="carousel">
+        <div id="carousel_sawmill" class="carousel slide" style="margin-top: 30px;"> <!--  data-ride="carousel"> -->
           
           <ol class="carousel-indicators">
           </ol>
@@ -155,20 +159,20 @@ img2 {height:10%; width:10%; }
           </a>
         
         </div>
-        
+<!--        
         <div class="form-group">
           <div class="col-xs-8 col-xs-offset-2" id="imageRes">
-          <label for="selectedResolutionDD" class="col-xs-6" style="margin-top: 30px; font: 16px sans-serif;">Image resolution:</label>
-          <div class="col-xs-4">
-            <select class="form-control" id="selectedResolutionDD" style="margin-top: 30px">
-              <option value="m">Low</option>
-              <option selected="selected" value="z">Medium</option>
-              <option value="c">High</option>
-            </select>
+            <label for="selectedResolutionDD" class="col-xs-6" style="margin-top: 30px; font: 16px sans-serif;">Image resolution:</label>
+            <div class="col-xs-4">
+              <select class="form-control" id="selectedResolutionDD" style="margin-top: 30px">
+                <option value="m">Low</option>
+                <option selected="selected" value="z">Medium</option>
+                <option value="c">High</option>
+              </select>
+            </div>
           </div>
         </div>
-        </div>
-        
+-->        
         <div class="col-xs-8 col-xs-offset-4" style="margin-top: 30px;">
           <div id="carouselButtons" class="btn-group" data-toggle="buttons">
             <label class="btn btn-default active">
@@ -217,12 +221,12 @@ img2 {height:10%; width:10%; }
             </div>
         </div>
         
-        <svg width="500" height="300" id="flowGraph"></svg> 
+        <svg width="450" height="270" id="flowGraph"></svg> 
         
       </div> 
       
       <div class="col-xs-6 col-md-6" >
-        
+<!--        
         <div class="row" style="margin-top: 20px" >
           <div class="col-xs-12 col-xs-offset-6">
           <label for="tempButtons" style=" font: 14px sans-serif; ">Show temperature graph:</label>
@@ -236,8 +240,8 @@ img2 {height:10%; width:10%; }
               </div>
             </div>
         </div>
-        
-        <svg width="500" height="300" id="TandPGraph"></svg>  
+-->        
+        <svg width="450" height="270" id="TandPGraph"></svg>  
       </div> 
       
     </div>
@@ -248,7 +252,7 @@ img2 {height:10%; width:10%; }
       <div class="row">
         <div class="col-xs-12 col-md-12">
 
-          <h2 id="gridHeader">Sawmill River from the Montague Conservation Area bridge</h2>
+          <h4 id="gridHeader"></h4>
           <div class="row" style="margin-top: 50px; margin-bottom: 20px">
             <div id="flickr-images_sawmill"></div>
           </div>  
@@ -302,14 +306,15 @@ img2 {height:10%; width:10%; }
   </footer>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="/libs/intro.js/minified/intro.min.js"></script>
 
 <script type='text/javascript' src="js/globalVariables.js"></script>
-<script type='text/javascript' src="js/functions.js"></script>
+<script type='text/javascript' src="js/functions101.js"></script>
 <script type='text/javascript' src="js/getData.js"></script>
 <!-- 
 <script src="/libs/jquery/dist/jquery.min.js"></script>
 <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>  -->
-<script src="/libs/intro.js/minified/intro.min.js"></script>
+
 
 
 <script>
@@ -322,7 +327,8 @@ img2 {height:10%; width:10%; }
     getImgs("72157681488505313","sawmill"); 
     //getImgs("72157681560511503","consArea");
   
-    startTour();
+    startTour()
+    
   }); 
 
 </script>
