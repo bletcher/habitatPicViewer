@@ -230,7 +230,7 @@ img2 {height:10%; width:10%; }
         
       </div> 
       
-      <div class="col-xs-6 col-md-6" >
+      <div class="col-xs-6 col-md-6" id="graph2">
 <!--        
         <div class="row" style="margin-top: 20px" >
           <div class="col-xs-12 col-xs-offset-6">
@@ -246,7 +246,7 @@ img2 {height:10%; width:10%; }
             </div>
         </div>
 -->        
-        <svg width="450" height="270" id="TandPGraph"></svg>  
+        <svg width="450" height="270" id="tempGraph"></svg>  
       </div> 
       
     </div>
@@ -315,8 +315,8 @@ img2 {height:10%; width:10%; }
 <script src="/libs/intro.js/minified/intro.min.js"></script>
 
 <script type='text/javascript' src="js/globalVariables.js"></script>
-<script type='text/javascript' src="js/functions101.js"></script>
-<script type='text/javascript' src="js/getData.js"></script>
+<script type='text/javascript' src="js/functions121.js"></script>
+<script type='text/javascript' src="js/getData121.js"></script>
 <!-- 
 <script src="/libs/jquery/dist/jquery.min.js"></script>
 <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>  -->
@@ -328,7 +328,7 @@ img2 {height:10%; width:10%; }
   $(document).ready(function() {
 
     makeFlowGraph();
-    makeTandPGraph();
+    makeTempGraph();
 
     getImgs("72157681488505313","sawmill"); 
     //getImgs("72157681560511503","consArea");
