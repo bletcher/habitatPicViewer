@@ -63,6 +63,33 @@ TandPData <- allTandPData %>%
              #maxDateTime = max(datetime)
              )
 
+
+#########################
+## Get long-term average.
+## Only need to run once a year or so, 
+## but it's pretty fast so just inclue in this file
+
+startDate2 = '1979-01-02'
+
+allTandPData2 <- nldas2_primary_forcing_rods(-72.53, 42.54, as.POSIXct(startDate2, tz = 'UTC'), as.POSIXct(Sys.Date() - 5, tz = 'UTC')) # get error if use < '-5'
+
+all <- allTandPData2 %>%
+  mutate( dates = as.Date(datetime),
+          jul = yday(dates),
+          temp = TMP2m - 273.15) %>%
+  group_by(jul) %>%
+  summarize( meanT = mean(temp) ) %>% 
+  na.omit()
+
+# add the beginning of the year to the end so we can get rolling mean for all days.
+append <- all[1:14,] %>% mutate(jul = jul + 366) 
+all2 <- bind_rows(all,append)
+
+#plot(all2$jul,all2$meanT)
+#plot(rollmean(all2$meanT, k = 14))
+
+moveAvgTemp <- data.frame( jul = all2$jul[1:367], meanAvgTemp = rollmean(all2$meanT, k = 14) )
+
 #####################
 # Get flow data
 
@@ -85,6 +112,11 @@ daySeq <- data.frame(dates = seq(dMin, dMax, by = 'days'))
 envData <- daySeq %>% left_join( flowData ) %>% left_join( TandPData )
 
 envData$datePlus1 <- envData$dates + 1
+
+# merge in moving mean average temp
+envData$jul <- yday(envData$dates)
+envData <- left_join(envData, moveAvgTemp)
+
 ########################################
 # interpolate missing flow data
 # there are a few days with missing data
