@@ -128,14 +128,36 @@ img2 {height:10%; width:10%; }
     
 .introjs-tooltip {
   font-size: 1.5rem;
-}    
-    
+}
+
+
+
+.axisGrey line{
+  stroke: grey;
+}
+.axisGrey path{
+  stroke: grey;
+}
+.axisGrey text{
+  fill: grey;
+}
+ 
+.axisBlue line{
+  stroke: lightblue;
+}
+.axisBlue path{
+  stroke: lightblue;
+}
+.axisBlue text{
+  fill: lightblue;
+}  
+
 </style>
 </head>
 <body>
 
   <div class="ice-header">
-    <span class="brand">SHEDS: Daily Picture Explorer</span>
+    <span class="brand">SHEDS: Flow Pictures Explorer</span>
     <div class="pull-right">
       <a href="http://ecosheds.org" class="pull-right">SHEDS Home</a> <br>
       <a onClick="startTour(); return false;" href="fallback.html" class="pull-right">Help</a>
@@ -257,8 +279,8 @@ img2 {height:10%; width:10%; }
       <div class="row">
         <div class="col-xs-12 col-md-12">
 
-          <h4 id="gridHeader"></h4>
-          <div class="row" style="margin-top: 50px; margin-bottom: 20px">
+          <h2 id="gridHeader">Picture grid</h2>
+          <div class="row" style="margin-top: 30px; margin-bottom: 20px">
             <div id="flickr-images_sawmill"></div>
           </div>  
 
@@ -312,11 +334,12 @@ img2 {height:10%; width:10%; }
   </footer>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
 <script src="/libs/intro.js/minified/intro.min.js"></script>
 
 <script type='text/javascript' src="js/globalVariables.js"></script>
-<script type='text/javascript' src="js/functions121.js"></script>
-<script type='text/javascript' src="js/getData121.js"></script>
+<script type='text/javascript' src="js/functions.js"></script>
+<script type='text/javascript' src="js/getData.js"></script>
 <!-- 
 <script src="/libs/jquery/dist/jquery.min.js"></script>
 <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>  -->

@@ -126,16 +126,24 @@ function getImgs(setID,setName) {
         slideIndex[i] = strToDate(item.datetaken);
 
       }
+      
+      var tt = 480; //d3.select('.tooltip').node().offsetWidth;
+      var xOffset, yOffset;
 
       img_thumb
         .on("mouseover", function(d) {
-
-        //console.log("this", this, 'd', d, 'img', d.target.x, d.target.y, d.target.y);
+          
+         var w = d3.select('#flickr-images_sawmill').node().offsetWidth;
+         
+         if(d.target.x > w/1.7) { xOffset = w/4 + 'px' } else { xOffset = w - tt + 50 + 'px' }
+    	   yOffset = d.target.y + "px";
+        
+        //console.log("this", this, 'd', d, 'img', d.target.x, d.target.y, xOffset, yOffset,d3.select('#flickr-images_sawmill').node().offsetWidth,tt);
         
         tooltip.html('<h3>' + item.datetaken + " // " + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
 
-          .style("left", d3.select('.col-xs-12').node().offsetWidth / 4 + 'px')     
-          .style("top",  d.target.y + 0 + "px")
+          .style("left", xOffset) //d3.select('#flickr-images_sawmill').node().offsetWidth / 4 + 'px')     
+          .style("top",  yOffset) //d.target.y + 0 + "px")
           .transition()
           .duration(100)
           .style("opacity", 1);
@@ -241,29 +249,26 @@ function makeFlowGraph(){
     
     g.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x))
-        .attr("stroke", "grey")
-      .select(".domain")
-        .remove();
-  
+        .attr("class", "axisGrey")
+        .call( d3.axisBottom(x));
+
     g.append("g")
+        .attr("class", "axisGrey")
         .call(d3.axisLeft(y))
-        .attr("stroke", "grey")
       .append("text")
         .attr("fill", "lightgrey")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
-        .attr("stroke", "grey")
         .text("Flow (cfs)");
     
     var widthMinus = width - 3;
 
     g.append("g")
+        .attr("class", "axisBlue")
         .call(d3.axisRight(y2))
         .attr("transform", "translate(" + widthMinus + ",0)")
-        .attr("stroke", "lightblue")
         .attr("id", "prcpAxis")
       .append("text")
         .attr("fill", "lightblue")
@@ -271,7 +276,6 @@ function makeFlowGraph(){
         .attr("y", -15)
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
-        .attr("stroke", "lightblue")
         .text("Precipition (inches)");
   
     g.append("path")
@@ -401,35 +405,31 @@ function makeTempGraph(){
   
     g2.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x2))
-        .attr("stroke", "grey")
-      .select(".domain")
-        .remove();
+        .attr("class", "axisGrey")
+        .call(d3.axisBottom(x2));
   
     g2.append("g")
+        .attr("class", "axisGrey")
         .call(d3.axisLeft(y2))
-        .attr("stroke", "grey")
       .append("text")
         .attr("fill", "lightgrey")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
-        .attr("stroke", "grey")
         .text("Air temperature (C)");
       
      var widthMinus = width - 3;    
      g2.append("g")
+        .attr("class", "axisGrey")
         .call(d3.axisRight(yF))
         .attr("transform", "translate(" + widthMinus + ",0)")
-        .attr("stroke", "grey")
       .append("text")
         .attr("fill", "grey")
         .attr("transform", "rotate(-90)")
         .attr("y", -15)
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
-        .attr("stroke", "grey")
         .text("Air temperature (F)");
         
     g2.append("line")         
@@ -437,7 +437,8 @@ function makeTempGraph(){
       .attr("x1", x(d3.min(state.env, function(d) { return d.date; })))    
       .attr("y1", y2(0))     
       .attr("x2", x(d3.max(state.env, function(d) { return d.date; })))  
-      .attr("y2", y2(0));   
+      .attr("y2", y2(0))
+      .attr("stroke-width", 0.5);   
   
     g2.append("path")
       .datum(state.env)
