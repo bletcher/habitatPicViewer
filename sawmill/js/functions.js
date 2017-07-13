@@ -135,7 +135,7 @@ function getImgs(setID,setName) {
           
          var w = d3.select('#flickr-images_sawmill').node().offsetWidth;
          
-         if(d.target.x > w/1.7) { xOffset = w/4 + 'px' } else { xOffset = w - tt + 50 + 'px' }
+         if(d.target.x > w/2) { xOffset = w/4 + 'px' } else { xOffset = w - tt + 50 + 'px' }
     	   yOffset = d.target.y + "px";
         
         //console.log("this", this, 'd', d, 'img', d.target.x, d.target.y, xOffset, yOffset,d3.select('#flickr-images_sawmill').node().offsetWidth,tt);
