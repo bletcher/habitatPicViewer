@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Daily pic viewer</title>
+  <title>Flow pic viewer</title>
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"  type="text/css">
   <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"  type="text/css"> 
@@ -86,6 +86,18 @@ div.tooltip {
   text-align: center;
 }
 
+div.tooltipGoals {
+  position: absolute;
+  padding: 8px;
+  font: 14px sans-serif;
+  background: #C6C6C6;
+  pointer-events: none;
+  height: auto;
+  width: 480px;
+  text-align: left;
+  z-index: 1000;
+}
+
 .object-fit_contain { object-fit: contain }
 
 img[class] { 
@@ -160,14 +172,16 @@ img2 {height:10%; width:10%; }
     <span class="brand">SHEDS: Flow Pictures Explorer</span>
     <div class="pull-right">
       <a href="http://ecosheds.org" class="pull-right">SHEDS Home</a> <br>
+      <a href="fallback.html" class="pull-right" id="goals">Project goals</a> <br>
       <a onClick="startTour(); return false;" href="fallback.html" class="pull-right">Help</a>
     </div>
   </div>
 
   <div class="content-section-b top-section">
-    <div class="container" style="margin-top: 15px;">
+    <div class="container" style="margin-top: 5px;">
+
       <div class="col-xs-6 col-md-6">
-  
+
         <div id="carousel_sawmill" class="carousel slide" style="margin-top: 30px;"> <!--  data-ride="carousel"> -->
           
           <ol class="carousel-indicators">

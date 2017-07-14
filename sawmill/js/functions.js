@@ -5,6 +5,10 @@ var tooltip = d3.select("body").append("div")
   .attr("class", "tooltip")
   .style("opacity", 0);
 
+var tooltipGoals = d3.select("body").append("div")
+  .attr("class", "tooltipGoals")
+  .style("opacity", 0);
+
 function imgError(image) {
     image.onerror = "";
     image.src = "/img/noImage.gif";
@@ -85,6 +89,29 @@ $("#tempButtons :input").change(function() {
     if(this.id == 'yes') makeTempGraph();
     if(this.id == 'no') $("#tempGraph").empty();
 });
+
+
+d3.select("#goals")
+  .on("mouseover", function(d) {
+    console.log("in #goals")
+     tooltipGoals.html(projectGoals)
+          .style("left", "100px") //d3.select('#flickr-images_sawmill').node().offsetWidth / 4 + 'px')     
+          .style("top",  "100px") //d.target.y + 0 + "px")
+          .transition()
+          .duration(100)
+          .style("opacity", 1);
+          
+  })
+        
+  .on("mouseout", function (d) {
+    d3.select(this);
+
+    tooltipGoals.transition()
+      .duration(250)
+      .style("opacity", 0);
+
+  });  
+
 
 ///////
 // http://www.lovelldsouza.com/webdev/flickr-to-website/
