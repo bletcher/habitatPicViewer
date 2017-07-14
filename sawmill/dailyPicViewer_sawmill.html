@@ -18,8 +18,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
-
-
 <style>
 
 /* Header */
@@ -51,9 +49,6 @@
 .ice-header a:visited {
   color: white;
 }
-
-
-
 
 body, h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
@@ -172,7 +167,7 @@ img2 {height:10%; width:10%; }
     <span class="brand">SHEDS: Flow Pictures Explorer</span>
     <div class="pull-right">
       <a href="http://ecosheds.org" class="pull-right">SHEDS Home</a> <br>
-      <a href="fallback.html" class="pull-right" id="goals">Project goals</a> <br>
+      <a class="pull-right" id="goals">Project goals</a> <br>
       <a onClick="startTour(); return false;" href="fallback.html" class="pull-right">Help</a>
     </div>
   </div>
@@ -200,20 +195,7 @@ img2 {height:10%; width:10%; }
           </a>
         
         </div>
-<!--        
-        <div class="form-group">
-          <div class="col-xs-8 col-xs-offset-2" id="imageRes">
-            <label for="selectedResolutionDD" class="col-xs-6" style="margin-top: 30px; font: 16px sans-serif;">Image resolution:</label>
-            <div class="col-xs-4">
-              <select class="form-control" id="selectedResolutionDD" style="margin-top: 30px">
-                <option value="m">Low</option>
-                <option selected="selected" value="z">Medium</option>
-                <option value="c">High</option>
-              </select>
-            </div>
-          </div>
-        </div>
--->        
+        
         <div class="col-xs-8 col-xs-offset-4" style="margin-top: 30px;">
           <div id="carouselButtons" class="btn-group" data-toggle="buttons">
             <label class="btn btn-default active">
@@ -267,21 +249,6 @@ img2 {height:10%; width:10%; }
       </div> 
       
       <div class="col-xs-6 col-md-6" id="graph2">
-<!--        
-        <div class="row" style="margin-top: 20px" >
-          <div class="col-xs-12 col-xs-offset-6">
-          <label for="tempButtons" style=" font: 14px sans-serif; ">Show temperature graph:</label>
-              <div id="tempButtons" class="btn-group " data-toggle="buttons">
-                <label class="btn btn-default btn-xs active">
-                  <input type="radio" name="options" id="yes" autocomplete="off" checked> Yes
-                </label>
-                <label class="btn btn-default btn-xs">
-                  <input type="radio" name="options" id="no" autocomplete="off"> No
-                </label>
-              </div>
-            </div>
-        </div>
--->        
         <svg width="450" height="270" id="tempGraph"></svg>  
       </div> 
       
@@ -351,14 +318,9 @@ img2 {height:10%; width:10%; }
 <script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
 <script src="/libs/intro.js/minified/intro.min.js"></script>
 
-<script type='text/javascript' src="js/globalVariables.js"></script>
-<script type='text/javascript' src="js/functions.js"></script>
+<script type='text/javascript' src="js/globalVariables111.js"></script>
+<script type='text/javascript' src="js/functions111.js"></script>
 <script type='text/javascript' src="js/getData.js"></script>
-<!-- 
-<script src="/libs/jquery/dist/jquery.min.js"></script>
-<script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>  -->
-
-
 
 <script>
 
@@ -368,7 +330,6 @@ img2 {height:10%; width:10%; }
     makeTempGraph();
 
     getImgs("72157681488505313","sawmill"); 
-    //getImgs("72157681560511503","consArea");
   
     startTour()
     
@@ -378,4 +339,3 @@ img2 {height:10%; width:10%; }
 
 </body>
 </html>
-

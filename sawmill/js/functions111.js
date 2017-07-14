@@ -54,26 +54,6 @@ $('#carousel_sawmill').on('slide.bs.carousel', function (e) {
 
 });
 
-//$('.carousel').carousel({ interval: state.transitionDur });
-
-/*
-$("#selectedResolutionDD").on("change", function () {
-  state.selectedResolution = $("#selectedResolutionDD").val();
-  
-  $('.carousel').carousel('pause');
-  $(".carousel-indicators").empty();
-  $(".carousel-inner").empty();
-  $("#flickr-images_sawmill").empty();
-  getImgs("72157681488505313","sawmill");
-  $('.carousel').carousel('cycle');
-
-  $("#flickr-images_consArea").empty();
-  getImgs("72157681560511503","consArea");
-  
-  console.log("#selectedResolutionDD change", state.selectedResolution);
-});
-*/
-
 $("#carouselButtons :input").change(function() {
     if(this.id == 'stop') $('.carousel').carousel('pause');
     if(this.id == 'go')   $('.carousel').carousel('cycle');
@@ -90,22 +70,22 @@ $("#tempButtons :input").change(function() {
     if(this.id == 'no') $("#tempGraph").empty();
 });
 
-
 d3.select("#goals")
   .on("mouseover", function(d) {
-    console.log("in #goals")
      tooltipGoals.html(projectGoals)
-          .style("left", "100px") //d3.select('#flickr-images_sawmill').node().offsetWidth / 4 + 'px')     
-          .style("top",  "100px") //d.target.y + 0 + "px")
-          .transition()
-          .duration(100)
-          .style("opacity", 1);
-          
+        .style("left", "100px") 
+        .style("top", "100px")
+        .transition()
+        .duration(100)
+        .style("opacity", 1);
+      
+        $(this).css('color', 'darkgrey'); 
   })
         
   .on("mouseout", function (d) {
-    d3.select(this);
 
+    $(this).css('color', 'white'); 
+    
     tooltipGoals.transition()
       .duration(250)
       .style("opacity", 0);
@@ -133,8 +113,6 @@ function getImgs(setID,setName) {
     "&extras=date_taken" +
     "&format=json&nojsoncallback=1" 
     ;  
-//console.log('testIn')
-//  console.log(URL,setID,setName);
 
   $.getJSON(URL, function(data){
     $.each(data.photoset.photo, function(i, item){
@@ -164,13 +142,11 @@ function getImgs(setID,setName) {
          
          if(d.target.x > w/2) { xOffset = w/4 + 'px' } else { xOffset = w - tt + 50 + 'px' }
     	   yOffset = d.target.y + "px";
-        
-        //console.log("this", this, 'd', d, 'img', d.target.x, d.target.y, xOffset, yOffset,d3.select('#flickr-images_sawmill').node().offsetWidth,tt);
-        
+
         tooltip.html('<h3>' + item.datetaken + " // " + item.title + '</h3><br><img class="object-fit-contain" src= ' + this.src + ' onerror="imgError(this);"/' + '>')
 
-          .style("left", xOffset) //d3.select('#flickr-images_sawmill').node().offsetWidth / 4 + 'px')     
-          .style("top",  yOffset) //d.target.y + 0 + "px")
+          .style("left", xOffset) 
+          .style("top",  yOffset)
           .transition()
           .duration(100)
           .style("opacity", 1);
@@ -250,12 +226,10 @@ function makeFlowGraph(){
       .rangeRound([height, height/1.66]);
       
   var line = d3.line()
-      //.defined(function(d) { return d; }) // to deal with null data
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y(d.flow); });
       
   var lineB = d3.line()
-      //.defined(function(d) { return d; }) // to deal with null data
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y2(d.prcp);}); 
       
@@ -263,7 +237,7 @@ function makeFlowGraph(){
       .domain([0, 1])
       .range(["grey", "white"]);
       
-      // Define the div for the tooltip
+  // Define the div for the tooltip
   var divTTGraph = d3.select("svg").append("div")	
     .attr("class", "tooltip")				
     .style("opacity", 0);
@@ -325,7 +299,7 @@ function makeFlowGraph(){
         .attr("stroke-width", 1.5)
         .attr("d", lineB);    
       
-   var picDates = g.selectAll("g") 
+/*   var picDates = g.selectAll("g") 
                      .data(slideIndex);
    
    picDates.enter().append("rect")
@@ -334,7 +308,8 @@ function makeFlowGraph(){
         .attr("width", 2)
         .attr("height", 5)
         .attr("stroke", "grey");
-        
+*/
+
 // add ability to click on graph and return date to get the slide # to slide to 
 // https://bl.ocks.org/alandunning/cfb7dcd7951826b9eacd54f0647f48d3
 
@@ -361,7 +336,6 @@ function makeFlowGraph(){
       $('.carousel').carousel(slideIndex.findIndex(findDate));
     }
 }
-
 
 ////////////////////////////////////////
 // make the temperature and Precip graph with transitions for the date dot. 
@@ -393,7 +367,6 @@ function transCircle2(dat){
       });
 
 }
-
 
 function makeTempGraph(){
 
@@ -487,16 +460,6 @@ function makeTempGraph(){
         .attr("stroke-width", 1.5)
         .attr("d", line2a);
      
- //  var picDates = g2.selectAll("g") 
- //                    .data(slideIndex);
- /*  
-   picDates.enter().append("rect")
-        .attr("x", function(d) { return x2(d); })
-        .attr("y", y(d3.min(state.TandPIn, function (d) { return d.temp; }) + 10))
-        .attr("width", 2)
-        .attr("height", 5)
-        .attr("stroke", "grey");
-*/
 // add ability to click on graph and return date to get the slide # to slide to 
 // https://bl.ocks.org/alandunning/cfb7dcd7951826b9eacd54f0647f48d3
 
