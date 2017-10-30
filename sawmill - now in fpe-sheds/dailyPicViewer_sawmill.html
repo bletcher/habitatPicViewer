@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flow pic viewer</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"  type="text/css">
+  <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"  type="text/css"> 
+  <link rel="stylesheet" href="libs/landing-page/css/landing-page.css"  type="text/css">
+  <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css"  type="text/css">
+  <link rel="stylesheet" href="/libs/intro.js/minified/introjs.min.css">
+
+<!-- From bootstrap api -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<style>
+
+/* Header */
+.ice-header {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  top: 0;
+  left: 0;
+  background: rgba(40, 40, 40, 0.5);
+  color: white;
+  padding: 10px;
+  font-family: 'Open Sans', "proxima-nova-alt", Helvetica, Arial, sans-serif;
+  z-index: 2000;
+}
+
+.ice-header .brand {
+  font-variant: small-caps;
+  font-size: 24pt;
+}
+
+.ice-header a {
+  color: white;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  line-height: 1.5em;
+}
+
+.ice-header a:visited {
+  color: white;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
+}
+
+p {
+  font-size: 1.7rem;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
+}
+
+.top-section {
+  background: #222;
+  color: white;
+  
+}
+
+.funding-section img {
+  margin: 10px 25px 10px 25px;
+}
+
+div.tooltip {
+  position: absolute;
+  padding: 8px;
+  font: 12px sans-serif;
+  background: #C6C6C6;
+  pointer-events: none;
+  height: auto;
+  width: 480px;
+  text-align: center;
+}
+
+div.tooltipGoals {
+  position: absolute;
+  padding: 8px;
+  font: 14px sans-serif;
+  background: #C6C6C6;
+  pointer-events: none;
+  height: auto;
+  width: 480px;
+  text-align: left;
+  z-index: 1000;
+}
+
+.object-fit_contain { object-fit: contain }
+
+img[class] { 
+  width: 100%;
+  height: 100%;
+}
+
+img2 {height:10%; width:10%; }
+
+.carousel-inner > .carousel-item > img,
+.carousel-inner > .carousel-item > a > img {
+  width: 75%;
+  margin: auto;
+}
+
+.carousel-indicators {
+   display: inline-block;
+   width: 80%;
+   margin: auto;
+}
+
+.carousel-caption {top: 2px;}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: #F1F3F3;
+  stroke: #6F257F;
+  stroke-width: 5px;
+}
+  
+.hover-line {
+  stroke: #6F257F;
+  stroke-width: 2px;
+  stroke-dasharray: 3,3;
+}
+    
+.introjs-tooltip {
+  font-size: 1.5rem;
+}
+
+
+
+.axisGrey line{
+  stroke: grey;
+}
+.axisGrey path{
+  stroke: grey;
+}
+.axisGrey text{
+  fill: grey;
+}
+ 
+.axisBlue line{
+  stroke: lightblue;
+}
+.axisBlue path{
+  stroke: lightblue;
+}
+.axisBlue text{
+  fill: lightblue;
+}  
+
+</style>
+</head>
+<body>
+
+  <div class="ice-header">
+    <span class="brand">SHEDS: Flow Pictures Explorer</span>
+    <div class="pull-right">
+      <a href="http://ecosheds.org" class="pull-right">SHEDS Home</a> <br>
+      <a class="pull-right" id="goals">Project goals</a> <br>
+      <a onClick="startTour(); return false;" href="fallback.html" class="pull-right">Help</a>
+    </div>
+  </div>
+
+  <div class="content-section-b top-section">
+    <div class="container" style="margin-top: 5px;">
+
+      <div class="col-xs-6 col-md-6">
+
+        <div id="carousel_sawmill" class="carousel slide" style="margin-top: 30px;"> <!--  data-ride="carousel"> -->
+          
+          <ol class="carousel-indicators">
+          </ol>
+          
+          <div class="carousel-inner" role="listbox">
+          </div>
+      
+          <a class="carousel-control-prev" href="#carousel_sawmill" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carousel_sawmill" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        
+        </div>
+        
+        <div class="col-xs-8 col-xs-offset-4" style="margin-top: 30px;">
+          <div id="carouselButtons" class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default active">
+              <input type="radio" name="options" id="go" autocomplete="off" checked> Cycle
+            </label>
+            <label class="btn btn-default">
+              <input type="radio" name="options" id="stop" autocomplete="off"> Stop
+            </label>
+          </div>
+        </div>
+        
+ <!-- Couldn't get this to work in code section      
+        <div class="form-group">
+          <div class="col-xs-10">
+          <label for="speedButtons" class="col-xs-6" style="margin-top: 30px; font: 16px sans-serif;">Select cycle speed:</label>
+            <div id="speedButtons" class="btn-group" data-toggle="buttons" style="margin-top: 30px;">
+              <label class="btn btn-primary active">
+                <input type="radio" name="options" id="slow" autocomplete="off" checked> Slow
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="med" autocomplete="off"> Medium
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="fast" autocomplete="off"> Fast
+              </label>
+            </div>
+          </div>
+        </div>
+      
+ -->     
+      </div>
+      
+      <div class="col-xs-6 col-md-6" id="graph1">
+        <div class="row">
+          <div class="col-xs-12 col-xs-offset-7">
+          <label for="prcpButtons" style=" font: 14px sans-serif; ">Show Precipitation:</label>
+
+              <div id="prcpButtons" class="btn-group " data-toggle="buttons">
+                <label class="btn btn-default btn-xs active">
+                  <input type="radio" name="options" id="yes" autocomplete="off" checked> Yes
+                </label>
+                <label class="btn btn-default btn-xs">
+                  <input type="radio" name="options" id="no" autocomplete="off"> No
+                </label>
+              </div>
+            </div>
+        </div>
+        
+        <svg width="450" height="270" id="flowGraph"></svg> 
+        
+      </div> 
+      
+      <div class="col-xs-6 col-md-6" id="graph2">
+        <svg width="450" height="270" id="tempGraph"></svg>  
+      </div> 
+      
+    </div>
+  </div>
+
+  <div class="content-section-b">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+
+          <h2 id="gridHeader">Picture grid</h2>
+          <div class="row" style="margin-top: 30px; margin-bottom: 20px">
+            <div id="flickr-images_sawmill"></div>
+          </div>  
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section-a">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <h1>Data sources</h1>
+          <br>
+          <p>Images: Taken mostly by Ben with a Samsung S7 cell phone</p>
+          <p>Go <a href = "https://www.google.com/maps/@42.539499,-72.5308947,3a,75y,200.3h,90t/data=!3m8!1e1!3m6!1s-WqXbj49pp24%2FWVkfxbCLO6I%2FAAAAAAAAFj8%2FvhxRnZlX4dAEsFadYxVnsB30mH9OCwfUgCLIBGAYYCw!2e4!3e11!6s%2F%2Flh5.googleusercontent.com%2F-WqXbj49pp24%2FWVkfxbCLO6I%2FAAAAAAAAFj8%2FvhxRnZlX4dAEsFadYxVnsB30mH9OCwfUgCLIBGAYYCw%2Fw203-h100-k-no-pi0-ya310.24234-ro-0-fo100%2F!7i10240!8i5120" x target="_blank"> here </a>for a 360 degree view of the picture location</p> 
+          <br>
+          <p>Air temperature: NASA's <a href="https://ldas.gsfc.nasa.gov/nldas/" x target="_blank"> Land Data Assimilation Systems</a> </p>
+          <p>Precipitation: NASA's <a href="https://ldas.gsfc.nasa.gov/nldas/" x target="_blank"> Land Data Assimilation Systems</a> </p>
+          <p>Stream flow: USGS's <a href="https://waterdata.usgs.gov/nwis/rt" x target="_blank"> Stream gage network</a> </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section-b">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <h1>Project Team</h1>
+          <br>
+          <p>Dr <a href="https://www.lsc.usgs.gov/?q=cafb-ben-letcher" x target="_blank">Ben Letcher</a>, an ecologist with <a href="https://www.lsc.usgs.gov/?q=conte-anadromous-fish-branch" x target="_blank">USGS Conte Anadromous Fish Research Center</a> </p>
+          <p>Dr <a href="walkerenvres.com" x target="_blank">Jeff Walker </a>, a hydrologist and data visualization expert  </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="copyright text-muted">Copyright © 2017 SHEDS Development Team</p>
+          <p class="copyright text-muted"><strong>Disclaimer:</strong> This web site (SHEDS) has not yet been approved by the U.S. Geological Survey (USGS). As such, it does not represent any official USGS finding or policy.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
+<script src="/libs/intro.js/minified/intro.min.js"></script>
+
+<script type='text/javascript' src="js/globalVariables111.js"></script>
+<script type='text/javascript' src="js/functions111.js"></script>
+<script type='text/javascript' src="js/getData.js"></script>
+
+<script>
+
+  $(document).ready(function() {
+
+    makeFlowGraph();
+    makeTempGraph();
+
+    getImgs("72157681488505313","sawmill"); 
+  
+    startTour()
+    
+  }); 
+
+</script>
+
+</body>
+</html>
