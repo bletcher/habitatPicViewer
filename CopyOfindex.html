@@ -1,0 +1,332 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Habitat pix</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="libs/landing-page/css/landing-page.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="libs/leaflet/dist/leaflet.css" rel="stylesheet" type="text/css">
+
+  <style>
+    body, h1, h2, h3, h4, h5, h6 {
+      font-weight: 400;
+      font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
+    }
+
+    .top-section {
+      background: #222;
+      color: white;
+    }
+    
+    .funding-section img {
+      margin: 10px 25px 10px 25px;
+    }
+
+    #mapwest {
+      height: 300px;
+      width: 450px;
+      margin: 0 10px;
+      display: block;
+      margin: auto;
+      width: 100%;
+    }
+
+    #mapstanley {
+      height: 300px;
+      width: 250px;
+      margin: 0 10px;
+      display: block;
+      margin: auto;
+      width: 85%;
+    }
+
+    div.tooltip {
+      position: absolute;
+      padding: 8px;
+      font: 12px sans-serif;
+      background: #C6C6C6;
+      pointer-events: none;
+      height: auto;
+      width: 480px;
+      text-align: center;
+    }
+
+    div.tooltipGrid {
+      position: absolute;
+      padding: 8px;
+      font: 12px sans-serif;
+      background: #C6C6C6;
+      pointer-events: none;
+      height: auto;
+      width: 480px;
+      text-align: center;
+    }
+    
+    .object-fit_contain { object-fit: contain }
+    
+    img[class] { 
+      width: 100%;
+    }
+    
+    img2 {height:10%; width:10%; }
+    
+    imgTest {
+      margin: 0;
+      border: 2px solid white;
+      -webkit-transition: opacity 500ms;
+      transition: opacity 500ms;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <div style="border-bottom: 2px solid #e7e7e7;background:#f8f8f8">
+    <div class="container">
+      <div class="row" style="margin-top: 20px; margin-bottom: 20px">
+        <div class="col-xs-12">
+          <h1>Habitat pictures viewer</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section-b top-section">
+    <div class="container">
+      <div class="row" style="margin-top: 20px; margin-bottom: 20px">
+
+        <div class="col-md-8">
+
+          <div class="col-md-6 text-center" style="margin-top: 10px">
+            <h3>West Brook, MA</h3>
+            <div>
+              <div id="mapwest"></div>
+            </div>
+          </div>
+          
+          <div class="col-md-6 text-center" style="margin-top: 10px">
+            <h3>Stanley Brook, ME</h3>
+            <div>
+              <div id="mapstanley"></div>
+            </div>
+          </div>
+          
+          <div class="row" >
+            <div class="col-md-4 col-md-offset-4 text-center" style="margin-top: 30px">
+
+   
+                    <label for="selectedYearDD" class="col-xs-5">Year</label>
+                    <div class="col-xs-7">
+
+                      <select class="form-control" id="selectedYearDD">
+                        <option selected="selected" value="ref">ref</option>
+                        <option value="2002">2002</option>
+                        <option value="2003">2003</option>
+                        <option value="2004">2004</option>
+                        <option value="2005">2005</option>
+                        <option value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                      </select>
+                    </div>
+            
+
+                  <div class="form-group">
+                    <label for="selectedSeasonDD" class="col-xs-5">Season</label>
+                    <div class="col-xs-7">
+                      <select class="form-control" id="selectedSeasonDD">
+                        <option value="1">Spring</option>
+                        <option selected="selected" value="2">Summer</option>
+                        <option value="3">Fall</option>
+                        <option value="4">Winter</option>
+                      </select>
+                    </div>
+                  </div>
+                
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="content-section-b">
+    <div class="container">
+      <div class="row">
+
+          <h2>Images by Sample</h2>
+          
+          <div class="form-group" style="margin-top: 30px">
+            <label for="selectedWatershedDD" class="col-xs-1">Watershed</label>
+            <div class="col-xs-2 col-md-2">    
+              <select class="form-control" id="selectedWatershedDD">
+                <option selected="selected" value="west">West Brook</option>
+                <option value="stanley">Stanley</option>
+              </select>
+            </div> 
+           </div>
+                
+        <div class="col-xs-12 col-md-12" style="margin-top: 30px">
+          <div id="flickr-images-bySample"></div>
+          <div id="gridBySample"></div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section-a">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+
+          <h2>Images by Section</h2>
+          
+            <div id="buttonBySection" class="btn-toolbar" role="toolbar">
+              <div class="btn-group btn-group-sm" role="group" >
+                <button type="button" class="btn btn-secondary">1</button>
+                <button type="button" class="btn btn-secondary">2</button>
+                <button type="button" class="btn btn-secondary">3</button>
+                <button type="button" class="btn btn-secondary">4</button>
+                <button type="button" class="btn btn-secondary">5</button>
+                <button type="button" class="btn btn-secondary">6</button>
+                <button type="button" class="btn btn-secondary">7</button>
+                <button type="button" class="btn btn-secondary">8</button>
+                <button type="button" class="btn btn-secondary">9</button>
+                <button type="button" class="btn btn-secondary">10</button>
+                <button type="button" class="btn btn-secondary">11</button>
+                <button type="button" class="btn btn-secondary">12</button>
+                <button type="button" class="btn btn-secondary">10</button>
+                <button type="button" class="btn btn-secondary">11</button>
+                <button type="button" class="btn btn-secondary">12</button>
+                <button type="button" class="btn btn-secondary">13</button>
+                <button type="button" class="btn btn-secondary">14</button>
+                <button type="button" class="btn btn-secondary">15</button>
+                <button type="button" class="btn btn-secondary">16</button>
+                <button type="button" class="btn btn-secondary">17</button>
+                <button type="button" class="btn btn-secondary">18</button>
+                <button type="button" class="btn btn-secondary">19</button>
+                <button type="button" class="btn btn-secondary">20</button>
+                <button type="button" class="btn btn-secondary">21</button>
+                <button type="button" class="btn btn-secondary">22</button>
+                <button type="button" class="btn btn-secondary">23</button>
+                <button type="button" class="btn btn-secondary">24</button>
+                <button type="button" class="btn btn-secondary">25</button>
+                <button type="button" class="btn btn-secondary">26</button>
+                <button type="button" class="btn btn-secondary">27</button>
+                <button type="button" class="btn btn-secondary">28</button>
+                <button type="button" class="btn btn-secondary">29</button>
+                <button type="button" class="btn btn-secondary">30</button>
+                <button type="button" class="btn btn-secondary">31</button>
+                <button type="button" class="btn btn-secondary">32</button>
+                <button type="button" class="btn btn-secondary">33</button>
+                <button type="button" class="btn btn-secondary">34</button>
+                <button type="button" class="btn btn-secondary">35</button>
+                <button type="button" class="btn btn-secondary">36</button>
+                <button type="button" class="btn btn-secondary">37</button>
+                <button type="button" class="btn btn-secondary">38</button>
+                <button type="button" class="btn btn-secondary">39</button>
+                <button type="button" class="btn btn-secondary">40</button>
+                <button type="button" class="btn btn-secondary">41</button>
+                <button type="button" class="btn btn-secondary">42</button>
+                <button type="button" class="btn btn-secondary">43</button>
+                <button type="button" class="btn btn-secondary">45</button>
+                <button type="button" class="btn btn-secondary">46</button>
+                <button type="button" class="btn btn-secondary">47</button> 
+              </div>
+            </div>
+            
+            <div class="row" >
+              <div class="col-md-2 col-md-offset-0 text-left" style="margin-top: 30px; margin-bottom: 20px">
+            
+                <div class="form-group">
+                  <label for="selectedRiverDD" class="col-xs-3">River</label>
+                  <div class="col-xs-9">
+                    <select class="form-control" id="selectedRiverDD">
+                      <option selected="selected" value="WB">WB</option>
+                      <option value="OL">OL</option>
+                      <option value="OS">OS</option>
+                      <option value="IL">IL</option>
+                      <option class="dropdown-divider"></option>
+                      <option value="east">east</option>
+                      <option value="west">west</option>
+                      <option value="mainstem">mainstem</option>
+                      <option value="tidal">tidal</option>
+                    </select>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          
+          <div id="flickr-images-bySection"></div>
+          <div id="gridBySection"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section-b">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <h2>Project Team</h2>
+          <p>Ben Letcher initiated the West Brook study in 1997 with Gabe Gries. Since then the study has been a collaboration among the <a href="http://www.lsc.usgs.gov/?q=cafb-population-dynamics-personnel" target="_blank">USGS Conte Laboratory</a> (Ben Letcher, Matt O'Donnell, Todd Dubreuil), the <a href="http://www.nrs.fs.fed.us/people/knislow" target="_blank">USFS Northern Research Station</a> (Keith Nislow, Jason Coombs), and the <a href="http://eco.umass.edu/" target="_blank">University of Massachusetts Department of Environmental Conservation</a> (<a href="http://www.cfc.umt.edu/personnel/details.php?ID=4461" target="_blank">Andrew Whiteley</a> - now at The University of Montana). </p>
+           <p>Ben Letcher and Matt O'Donnell started the Stanley Brook study in 2006 with <a href="http://www.coopunits.org/Maine/People/Joseph_Zydlewski/" target="_blank">Joe Zydlewski </a> from <a href="https://umaine.edu/wle/faculty-staff-directory/" target="_blank">the University of Maine </a> and Bruce Connery of the <a href="https://www.nps.gov/acad/index.htm" target="_blank">National Park Service </a>.</p>
+           <p>We thank the many graduate students, interns, post-docs and others who have helped sample the streams over the years. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="copyright text-muted">Copyright © 2016 SHEDS Development Team</p>
+          <p class="copyright text-muted"><strong>Disclaimer:</strong> This web site (SHEDS) has not yet been approved by the U.S. Geological Survey (USGS). As such, it does not represent any official USGS finding or policy.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+<script src="libs/leaflet/dist/leaflet.js"></script>
+<script src="libs/d3/d3.min.js"></script>
+
+
+<script src="/libs/jquery/dist/jquery.min.js"></script>
+<script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/libs/intro.js/minified/intro.min.js"></script>
+
+<script type='text/javascript' src="js/functions.js"></script>
+
+<script>
+
+makeMaps();
+
+renderImages("#gridBySample");
+renderImages("#gridBySection");
+
+
+</script>
+
+</body>
+</html>
+
