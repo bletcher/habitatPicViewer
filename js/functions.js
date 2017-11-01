@@ -17,7 +17,7 @@ var riverNames = {
   'West Brook': 'WB',
   'WB Mitchell': 'OS',
   'WB Jimmy': 'OL',
-  'WB Obear': 'IL',
+  'WB Obear': 'IS',
   'east': 'east',
   'west': 'west',
   'mainstem': 'mainstem',
@@ -129,7 +129,7 @@ function makeMaps(){
     
     
       var riverColors = d3.scaleOrdinal(d3.schemeCategory10)
-        .domain(['WB', 'OS', 'OL', 'IL']);
+        .domain(['WB', 'OS', 'OL', 'IS']);
     
       featureWest = g.selectAll("circle")
         .data(locationsWest)
@@ -215,7 +215,7 @@ function makeMaps(){
         g = svg.append("g");
     
       var riverColors = d3.scaleOrdinal(d3.schemeCategory10)
-        .domain(['WB', 'OS', 'OL', 'IL']);
+        .domain(['WB', 'OS', 'OL', 'IS']);
     
       featureStanley = g.selectAll("circle")
         .data(locationsStanley)
@@ -293,7 +293,7 @@ function gridDataBySample() {
 	  "WB",
 	  "OL",
 	  "OS",
-	  "IL"
+	  "IS"
 	];
 	
 	var riverMult = [ 0,1,2,3,0,0,0 ];
@@ -330,11 +330,6 @@ function gridDataBySample() {
   				                    
   				                   // /home/ben/webApps/habitatPicViewer/img/west/2006/2006_3/WB_2006_3
   			})
-  			  				                    console.log("img/" + app.state.selectedWatershed + "/"+ 
-  				                    app.state.selectedYear + "/" + 
-  				                    app.state.selectedYear + "_" + app.state.selectedSeason + "/" + 
-  				                    imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "/" +
-  				                    imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG")
 			}
 			else{
   			data[row].push({
