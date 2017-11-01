@@ -153,7 +153,7 @@ function makeMaps(){
               app.state.selectedYear + "/" +
               app.state.selectedYear + "_" + app.state.selectedSeason + "/" + 
               d.river + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "/" +
-              d.river + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + d.section + ".jpg";
+              d.river + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + d.section + ".JPG";
           }
 
           tooltip.html('<h3>River = ' + d.riverFull + 
@@ -326,8 +326,15 @@ function gridDataBySample() {
   				                    app.state.selectedYear + "/" + 
   				                    app.state.selectedYear + "_" + app.state.selectedSeason + "/" + 
   				                    imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "/" +
-  				                    imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".jpg"
+  				                    imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG"
+  				                    
+  				                   // /home/ben/webApps/habitatPicViewer/img/west/2006/2006_3/WB_2006_3
   			})
+  			  				                    console.log("img/" + app.state.selectedWatershed + "/"+ 
+  				                    app.state.selectedYear + "/" + 
+  				                    app.state.selectedYear + "_" + app.state.selectedSeason + "/" + 
+  				                    imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "/" +
+  				                    imageRowMap[row] + "_" + app.state.selectedYear + "_" + app.state.selectedSeason + "_" + columnPlus1 + ".JPG")
 			}
 			else{
   			data[row].push({
